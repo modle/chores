@@ -11,7 +11,7 @@ from datetime import datetime
 from chores.models import Chores, Category
 
 
-@user_passes_test(lambda u: u.is_superuser, login_url='profile')
+@user_passes_test(lambda u: u.is_superuser, login_url='login')
 def index(request):
 
     chores = Chores.objects.all()
