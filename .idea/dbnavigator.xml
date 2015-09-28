@@ -22,11 +22,7 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="f604d923-d795-4f41-8cc9-43ca1d85d4c2">
-        <schema name="public" object-types="column, constraint, function, index, sequence, table, trigger, view" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="f604d923-d795-4f41-8cc9-43ca1d85d4c2">
@@ -34,7 +30,10 @@
     </connection>
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-list connection-id="f604d923-d795-4f41-8cc9-43ca1d85d4c2" dataset="public.auth_user" active-filter-id="EMPTY_FILTER" />
+    <filter-list connection-id="f604d923-d795-4f41-8cc9-43ca1d85d4c2" dataset="public.chores_category" active-filter-id="EMPTY_FILTER" />
     <filter-list connection-id="f604d923-d795-4f41-8cc9-43ca1d85d4c2" dataset="public.chores_chores" active-filter-id="EMPTY_FILTER" />
+    <filter-list connection-id="f604d923-d795-4f41-8cc9-43ca1d85d4c2" dataset="public.chores_history" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />

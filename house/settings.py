@@ -5,6 +5,7 @@ Django settings for project.
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import urlparse
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -13,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '($hz=9!^=(grp!7hjq8%7@=8tn_6rc016$r61%3ry(14q0_uw&'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -70,16 +71,21 @@ WSGI_APPLICATION = 'house.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+urlparse.uses_netloc.append("postgres")
+url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd63dddljic34v0',
-        'USER': 'einfbccfwuwrdi',
-        'PASSWORD': 'JX_vpo-6Jq3F7-fBm3-m3wxmow',
-        'HOST': 'ec2-54-163-228-109.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'NAME': url.path[1:],
+        'USER': url.username,
+        'PASSWORD': url.password,
+        'HOST': url.hostname,
+        'PORT': url.port
     }
 }
+
+
 
 
 # Internationalization
