@@ -1,5 +1,9 @@
+import itertools
+
 from django import forms
 from django.forms import ModelForm
+from django.utils.text import slugify
+
 from .models import Chores, Category
 
 
@@ -14,6 +18,9 @@ class ChoresForm(ModelForm):
         fields = ('title', 'category', 'primary_assignee', 'secondary_assignee', 'frequency_in_days', )
         labels = {
             'title': '',
+            'secondary_assignee': 'Secondary Assignee',
+            'primary_assignee': 'Primary Assignee',
+            'frequency_in_days': 'Frequency (in days)',
         }
 
 

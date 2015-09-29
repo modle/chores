@@ -1118,6 +1118,10 @@ input[type="color"],
           border-radius: 4px;
 }
 
+input[type="number"]{
+height: auto;
+}
+
 input,
 textarea,
 .uneditable-input {

@@ -19,15 +19,25 @@
 </form>
 
 {% for chore in chores %}
+{% if chore.last_completed_date|overdue:chore.frequency_in_days >= 0 %}
     <div class="row-fluid">
         <div class="span12">
             <h3>{{ chore.title }}</h3>
             <p class="small-caps-header">{{ chore.category }}</p>
-            {{ chore.last_completed_by }}
+            <p>Primary assignee: <span class="small-caps-header">{{ chore.primary_assignee }}</span></p>
+            <p>Secondary assignee: <span class="small-caps-header">{{ chore.secondary_assignee }}</span></p>
+            <p>Last Completed by <span class="small-caps-header">{{ chore.last_completed_by }}</span> on
+            <span class="small-caps-header">{{ chore.last_completed_date }}</span></p>
+            {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
+                <p>Overdue by: <span class="small-caps-header">Too long</span></p>
+            {% else %}
+                <p>Overdue by: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days }} day(s)</span></p>
+            {% endif %}
             <p><a class="btn" href="">Mark Done &raquo;</a></p>
             <hr>
         </div><!--/span-->
     </div><!--/row-->
+{% endif %}
 {% endfor %}
 
 {% endblock %}

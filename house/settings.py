@@ -1,20 +1,21 @@
 """
-Django settings for project.
+Django settings for house.
 
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 import os
-import urlparse
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["SECRET_KEY"]
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -68,25 +69,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'house.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-urlparse.uses_netloc.append("postgres")
-url = urlparse.urlparse(os.environ["DATABASE_URL"])
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': url.path[1:],
-        'USER': url.username,
-        'PASSWORD': url.password,
-        'HOST': url.hostname,
-        'PORT': url.port
-    }
-}
-
-
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -122,49 +104,8 @@ MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/accounts/loggedin/'
 
-
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': True,
-#     'formatters': {
-#         'standard': {
-#             'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-#             'datefmt': "%d/%b/%Y %H:%M:%S"
-#         },
-#     },
-#     'handlers': {
-#         'null': {
-#             'level': 'DEBUG',
-#             'class': 'django.utils.log.NullHandler',
-#         },
-#         'logfile': {
-#             'level': 'DEBUG',
-#             'class': 'logging.handlers.RotatingFileHandler',
-#             'filename': BASE_DIR + "/logfile",
-#             'maxBytes': 50000,
-#             'backupCount': 2,
-#             'formatter': 'standard',
-#         },
-#         'console': {
-#             'level': 'INFO',
-#             'class': 'logging.StreamHandler',
-#             'formatter': 'standard'
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['console'],
-#             'propagate': True,
-#             'level': 'WARN',
-#         },
-#         'django.db.backends': {
-#             'handlers': ['console'],
-#             'level': 'DEBUG',
-#             'propagate': False,
-#         },
-#         'menu': {
-#             'handlers': ['console', 'logfile'],
-#             'level': 'DEBUG',
-#         },
-#     }
-# }
+try:
+    from house.localsettings import *
+    print 'you''re using the local dev settings'
+except ImportError:
+    from house.prodsettings import *

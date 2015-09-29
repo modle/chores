@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.core.context_processors import csrf
 from datetime import datetime
+from django.utils.text import slugify
+import itertools
+
 
 from chores.models import Chores, Category
 
@@ -46,9 +49,17 @@ def profile(request, slug):
         form = ChoresForm(request.POST)
 
         if form.is_valid():
+
             formpost = form.save(commit=False)
-            formpost.last_completed_by = request.user
+            original = slugify(formpost.title)
+
+            for x in itertools.count(1):
+                if not Chores.objects.filter(slug=slug).exists():
+                    break
+                slug = '{}-{}'.format(original, x)
+
             formpost.save()
+
         return HttpResponseRedirect(reverse('profile', args=[request.user]))
 
     else:
@@ -62,42 +73,6 @@ def profile(request, slug):
         },
         context_instance=RequestContext(request)
     )
-
-
-@login_required()
-def generate_post_form(request, slug):
-    if request.method == 'POST':
-
-        if slug == 'newpost':
-            form = ChoresForm(request.POST)
-
-            if form.is_valid():
-                formpost = form.save(commit=False)
-                formpost.user = request.user
-                formpost.edited = datetime.now()
-                formpost.save()
-            return HttpResponseRedirect(reverse('profile', args=[request.user]))
-        else:
-            form = ChoresForm(request.POST, instance=Chores.objects.get(slug=slug))
-
-            if form.is_valid():
-                formpost = form.save(commit=False)
-                formpost.user = request.user
-                formpost.edited = datetime.now()
-                formpost.save()
-
-            post = Chores.objects.get(slug=slug)
-            form = ChoresForm(instance=post)
-
-            return form
-
-    else:
-        if slug == 'newpost':
-            form = ChoresForm()
-        else:
-            post = Chores.objects.get(slug=slug)
-            form = ChoresForm(instance=post)
-        return form
 
 
 @login_required()
@@ -158,7 +133,7 @@ def notauthorized(request):
 
 def loggedin(request):
     return render_to_response(
-        'registration/profile.html',
+        'registration/loggedin.html',
         context_instance=RequestContext(request)
     )
 

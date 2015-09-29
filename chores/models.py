@@ -20,6 +20,8 @@ class History(models.Model):
 def last_year():
     return timezone.now() - timezone.timedelta(days=365)
 
+def one_hundred_days_ago():
+    return timezone.now() - timezone.timedelta(days=100)
 
 class Chores(models.Model):
     title = models.CharField(max_length=100, unique=True)
@@ -28,8 +30,8 @@ class Chores(models.Model):
     primary_assignee = models.ForeignKey(User, related_name='primary_assignee')
     secondary_assignee = models.ForeignKey(User, null=True, blank=True, related_name='secondary_assignee')
     frequency_in_days = models.IntegerField(default=0)
-    last_completed_date = models.DateTimeField(default=last_year)
-    last_completed_by = models.ForeignKey(User, related_name='last_completed_by')
+    last_completed_date = models.DateTimeField(default=one_hundred_days_ago)
+    last_completed_by = models.ForeignKey(User, related_name='last_completed_by', null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
