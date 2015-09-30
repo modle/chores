@@ -11,7 +11,9 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="hero-unit">
+    <h1>All Current Chores</h1>
+</div>
 <form action="{% url 'search' %}" method="POST">
 {% csrf_token %}
     {{ search_form }}
@@ -33,6 +35,7 @@
             {% else %}
                 <p>Overdue by: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days }} day(s)</span></p>
             {% endif %}
+            <p>Priority <span class="small-caps-header">{{ chore.get_priority_display }}</span>
             <p><a class="btn" href="">Mark Done &raquo;</a></p>
             <hr>
         </div><!--/span-->

@@ -70,33 +70,6 @@
         </div><!--/row-->
 
         {% block navsidebar %}
-            <div class="span3">
-                <div class="well sidebar-nav">
-                    <ul class="nav nav-list">
-                        <li class="nav-header">Categories</li>
-                        {% if categories %}
-                            {% for category in categories %}
-                                {% if category.total > 0 %}
-                                    <li>
-                                        <a href="{% url 'view_blog_category' category.slug %}">{{ category.title }} ({{ category.total }})</a>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            <p>There are no categories.</p>
-                        {% endif %}
-                        <hr>
-                        <li class="nav-header">Recent Posts</li>
-                        {% if posts %}
-                            {% for post in posts %}
-                                <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
-                            {% endfor %}
-                        {% else %}
-                            <li>There are no posts.</li>
-                        {% endif %}
-                    </ul>
-                </div><!--/.well -->
-            </div><!--/span3-->
         {% endblock %}
 
     </div><!--/row-->

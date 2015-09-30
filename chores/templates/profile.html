@@ -3,18 +3,17 @@
 {% load chores_extras %}
 
 {% block content %}
+<div class="hero-unit">
+    <h1>Your Current Chores</h1>
+</div>
 <div class="container-fluid">
-    <button type="button" class="btn" data-toggle="collapse" data-target=".newpost-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
+    <button type="button" class="btn" data-toggle="collapse" data-target=".newpost-collapse">Show Add Chore Form</button>
     <div class="newpost-collapse collapse">
         <form method="POST" action="">
             {% csrf_token %}
             {{ form }}
             <p>
-                <input class="btn" type="submit" value="Post &raquo;" id="submit"/>
+                <input class="btn" type="submit" value="Submit &raquo;" id="submit"/>
             </p>
         </form>
     </div>
@@ -39,7 +38,8 @@
             {% else %}
                 <p>Overdue by: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days }} day(s)</span></p>
             {% endif %}
-            <p><a class="btn" href="">Mark Done &raquo;</a></p>
+            <p>Priority <span class="small-caps-header">{{ chore.get_priority_display }}</span>
+            <p><a class="btn" href="{% url 'mark_chore_done' chore.slug %}">Mark Done &raquo;</a></p>
             <hr>
         </div><!--/span-->
     </div><!--/row-->

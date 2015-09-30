@@ -22,7 +22,11 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="f604d923-d795-4f41-8cc9-43ca1d85d4c2">
+        <schema name="public" object-types="column, constraint, function, index, sequence, table, trigger, view" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="f604d923-d795-4f41-8cc9-43ca1d85d4c2">
@@ -70,8 +74,8 @@
           <database value="d63dddljic34v0" />
           <url-type value="DATABASE" />
           <os-authentication value="false" />
-          <user value="einfbccfwuwrdi" />
-          <password value="SlhfdnBvLTZKcTNGNy1mQm0zLW0zd3htb3c=" />
+          <user value="njsyyjrmxaieqx" />
+          <password value="OGVzN2VCeWVkWlhJRVdadmJfeUFrdFVIYVk=" />
         </database>
         <properties>
           <auto-commit value="false" />

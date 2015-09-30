@@ -9,8 +9,9 @@ urlpatterns = [
     url(r'^$', 'chores.views.index', name='index'),
     url(r'^chores/profile/(?P<slug>[^\.]+).html', 'chores.views.profile', name='profile'),
     url(r'^chores/category/(?P<slug>[^\.]+).html', 'chores.views.view_category', name='view_category'),
-    url(r'^chores/edit_post/(?P<slug>[^\.]+).html', 'chores.views.edit_post', name='edit_post'),
+    url(r'^chores/edit_chore/(?P<slug>[^\.]+).html', 'chores.views.edit_chore', name='edit_chore'),
     url(r'^chores/search_results.html', 'chores.views.search', name='search'),
+    url(r'^(?P<slug>[^\.]+)/mark_chore_done/$', 'chores.views.mark_chore_done', name='mark_chore_done'),
 ]
 
 

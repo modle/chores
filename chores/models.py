@@ -7,6 +7,13 @@ from django.contrib.auth.models import User
 from chores.choices import *
 
 
+def last_year():
+    return timezone.now() - timezone.timedelta(days=365)
+
+def one_hundred_days_ago():
+    return timezone.now() - timezone.timedelta(days=100)
+
+
 class History(models.Model):
     chore = models.ForeignKey('chores.Chores')
     complete_date = models.DateTimeField(default=timezone.now)
@@ -18,12 +25,6 @@ class History(models.Model):
     def __unicode__(self):
         return '{} {}'.format(self.comment, self.blog)
 
-
-def last_year():
-    return timezone.now() - timezone.timedelta(days=365)
-
-def one_hundred_days_ago():
-    return timezone.now() - timezone.timedelta(days=100)
 
 class Chores(models.Model):
     title = models.CharField(max_length=100, unique=True)
@@ -72,3 +73,6 @@ class Category(models.Model):
     @permalink
     def get_absolute_url(self):
         return 'view_category', None, {'slug': self.slug}
+
+
+

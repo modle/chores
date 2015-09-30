@@ -3,6 +3,7 @@ import itertools
 from django import forms
 from django.forms import ModelForm
 from django.utils.text import slugify
+from chores.choices import *
 
 from .models import Chores, Category
 
@@ -22,6 +23,18 @@ class ChoresForm(ModelForm):
             'primary_assignee': 'Primary Assignee',
             'frequency_in_days': 'Frequency (in days)',
             'priority': 'Priority',
+        }
+        widgets = {
+            'priority': forms.Select(),
+        }
+        choices = {
+            'priority': PRIORITY_CHOICES,
+        }
+        initial = {
+            'priority': '',
+        }
+        required = {
+            'priority': True,
         }
 
 

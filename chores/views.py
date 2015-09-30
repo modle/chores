@@ -11,7 +11,7 @@ from django.utils.text import slugify
 import itertools
 
 
-from chores.models import Chores, Category
+from chores.models import Chores, Category, History
 
 
 @user_passes_test(lambda u: u.is_superuser, login_url='login')
@@ -76,7 +76,7 @@ def profile(request, slug):
 
 
 @login_required()
-def edit_post(request, slug):
+def edit_chore(request, slug):
     if request.method == 'POST':
         form = ChoresForm(request.POST, instance=Chores.objects.get(slug=slug))
 
@@ -86,15 +86,16 @@ def edit_post(request, slug):
             formpost.edited = datetime.now()
             formpost.save()
 
-        post = Chores.objects.get(slug=slug)
-        form = ChoresForm(instance=post)
+        chore = Chores.objects.get(slug=slug)
+        form = ChoresForm(instance=chore)
 
     else:
-        post = Chores.objects.get(slug=slug)
-        form = ChoresForm(instance=post)
+        chore = Chores.objects.get(slug=slug)
+        form = ChoresForm(instance=chore)
 
-    return render_to_response('edit_post.html', {'form': form, },
+    return render_to_response('edit_chore.html', {'form': form, },
                               context_instance=RequestContext(request))
+
 
 def register(request):
     if request.method == 'POST':
@@ -153,14 +154,10 @@ def search(request):
         if search_form.is_valid():
             search_term = search_form.cleaned_data['search_term']
 
-            categories = Category.objects.filter(title__icontains=search_term)
-            post_title = Chores.objects.filter(title__icontains=search_term)
-            post_body = Chores.objects.filter(body__icontains=search_term)
+            chores = Chores.objects.filter(title__icontains=search_term)
 
             return render_to_response('search_results.html', {
-                'categories': categories,
-                'post_title': post_title,
-                'post_body': post_body,
+                'chores': chores,
             },
                 context_instance=RequestContext(request)
             )
@@ -172,3 +169,15 @@ def search(request):
         },
         context_instance=RequestContext(request)
     )
+
+
+def mark_chore_done(request, slug):
+    chore = get_object_or_404(Chores, slug=slug)
+
+    chore.last_completed_date = datetime.now()
+    chore.save()
+
+    h = History(chore=chore, complete_date=datetime.now(), user=request.user)
+    h.save()
+
+    return HttpResponseRedirect(reverse('profile', args=(request.user,)))

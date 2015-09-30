@@ -1,58 +1,34 @@
 {% extends 'base.html' %}
 {% load markdown_deux_tags %}
+{% load chores_extras %}
 
 {% block content %}
     <div class="hero-unit">
         <h1>Search Results</h1>
     </div>
 
-    {% for category in categories %}
-        <div class="row-fluid">
-            <div class="span12">
-                <h3>{{ category.title }}</h3>
-                <hr>
-            </div><!--/span-->
-        </div>
+    {% for chore in chores %}
+    <div class="row-fluid">
+        <div class="span12">
+            <h3>{{ chore.title }}</h3>
+            <p class="small-caps-header">{{ chore.category }}</p>
+            <p>Primary assignee: <span class="small-caps-header">{{ chore.primary_assignee }}</span></p>
+            <p>Secondary assignee: <span class="small-caps-header">{{ chore.secondary_assignee }}</span></p>
+            <p>Last Completed by <span class="small-caps-header">{{ chore.last_completed_by }}</span> on
+            <span class="small-caps-header">{{ chore.last_completed_date }}</span></p>
+            {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
+                <p>Overdue by: <span class="small-caps-header">Too long</span></p>
+            {% else %}
+                <p>Overdue by: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days }} day(s)</span></p>
+            {% endif %}
+            <p>Priority <span class="small-caps-header">{{ chore.get_priority_display }}</span>
+            <p><a class="btn" href="">Mark Done &raquo;</a></p>
+            <hr>
+        </div><!--/span-->
+    </div><!--/row-->
     {% endfor %}
 
-    {% for post in post_title %}
-        <div class="row-fluid">
-            <div class="span12">
-                <h3>{{ post.title }}</h3>
-                <p>{{ post.posted }}</p>
-                {% markdown %}
-                    {{ post.body | safe | slice:":250" }}{% if post.body|length > 250 %}...{% endif %}
-                {% endmarkdown %}
-                <p><a class="btn" href="{{ post.get_absolute_url }}">View details &raquo;</a></p>
-                <hr>
-            </div><!--/span-->
-        </div>
-    {% endfor %}
 
-    {% for post in post_body %}
-        <div class="row-fluid">
-            <div class="span12">
-                <h3>{{ post.title }}</h3>
-                <p>{{ post.posted }}</p>
-                {% markdown %}
-                    {{ post.body | safe | slice:":250" }}{% if post.body|length > 250 %}...{% endif %}
-                {% endmarkdown %}
-                <p><a class="btn" href="{{ post.get_absolute_url }}">View details &raquo;</a></p>
-                <hr>
-            </div><!--/span-->
-        </div>
-    {% endfor %}
-
-    {% for comment in comments %}
-        <div class="row-fluid">
-            <div class="span12">
-                {% for comment in comments %}
-                    <b class="small-caps-header">{{ comment.user.username }} &mdash; {{ comment.publishDate }}</b><br><br>{{ comment.comment }}
-                    <hr>
-                {% endfor %}
-            </div><!--/span-->
-        </div>
-    {% endfor %}
 {% endblock %}
 
 {% block navsidebar %}
