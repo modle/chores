@@ -15,12 +15,13 @@ class ChoresForm(ModelForm):
 
     class Meta:
         model = Chores
-        fields = ('title', 'category', 'primary_assignee', 'secondary_assignee', 'frequency_in_days', )
+        fields = ('title', 'category', 'primary_assignee', 'secondary_assignee', 'frequency_in_days', 'priority', )
         labels = {
             'title': '',
             'secondary_assignee': 'Secondary Assignee',
             'primary_assignee': 'Primary Assignee',
             'frequency_in_days': 'Frequency (in days)',
+            'priority': 'Priority',
         }
 
 

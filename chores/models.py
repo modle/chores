@@ -4,6 +4,8 @@ from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from chores.choices import *
+
 
 class History(models.Model):
     chore = models.ForeignKey('chores.Chores')
@@ -32,6 +34,7 @@ class Chores(models.Model):
     frequency_in_days = models.IntegerField(default=0)
     last_completed_date = models.DateTimeField(default=one_hundred_days_ago)
     last_completed_by = models.ForeignKey(User, related_name='last_completed_by', null=True, blank=True)
+    priority = models.IntegerField(choices=PRIORITY_CHOICES, default=1)
 
     def save(self, *args, **kwargs):
         if not self.id:
