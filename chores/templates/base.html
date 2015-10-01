@@ -42,18 +42,11 @@
                     {% endif %}
                 </p>
                 <ul class="nav">
-                    <li class="active"><a href="{% url 'index' %}">Home</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'profile' user.username %}">Your Chores</a></li>
                         <li><a href="{% url 'all_chores' %}">All Chores</a></li>
+                        <li><a href="{% url 'all_categories' %}">Categories</a></li>
                     {% endif %}
-                    <!--<li><a href="#projects">Projects</a></li>-->
-                    <!--<li><a href="#about">About</a></li>-->
-                    <!--<li><a href="#contact">Contact</a></li>-->
-                    <!--<li><a href="#newsletter">Newsletter</a></li>-->
-                    <!--{% if user.is_superuser %}-->
-                        <!--<li><a href="{% url 'profile' user.username %}'#newpost'">New Post</a></li>-->
-                    <!--{% endif %}-->
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

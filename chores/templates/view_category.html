@@ -7,16 +7,27 @@
         <h1>{{ category.title }}</h1>
     </div>
     <div class="row-fluid">
-        {% for post in categoryposts %}
-            <div class="span4">
-                <h3>{{ post.title }}</h3>
-                <p>{{ post.posted }}</p>
-                {% markdown %}
-                    {{ post.body | safe | slice:":250" }}{% if post.body|length > 250 %}...{% endif %}
-                {% endmarkdown %}
-                <p><a class="btn" href="{{ post.get_absolute_url }}">View details &raquo;</a></p>
-                <hr>
-            </div><!--/span-->
+        {% for chore in chores %}
+            <div class="row-fluid">
+                <div class="span12">
+                    <p><b>{{ chore.title }}</b> - <span class="small-caps-header">{{ chore.category }}</span>
+                        | Assigned To: <span class="small-caps-header">{{ chore.primary_assignee }}</span></p>
+                    <p>Last Completed by <span class="small-caps-header">{{ chore.last_completed_by }}</span> on
+                    <span class="small-caps-header">{{ chore.last_completed_date|date:"l" }}, {{ chore.last_completed_date|date }}</span></p>
+                    <p>Priority:
+                    {% if chore.priority = 1 %}
+                        <span style="color:red; font-weight:bold">{{ chore.get_priority_display }}</span>
+                    {% elif chore.priority = 2 %}
+                        <span style="color:#FFB90F; font-weight:bold">{{ chore.get_priority_display }}</span>
+                    {% else %}
+                        <span style="color:green; font-weight:bold">{{ chore.get_priority_display }}</span>
+                    {% endif %}
+                    </p>
+                    <p><a class="btn" href="{% url 'edit_chore' chore.slug %}">Edit &raquo;</a>
+                    <a class="btn" href="{% url 'mark_chore_done' chore.slug %}">Mark Done &raquo;</a></p>
+                    <hr>
+                </div><!--/span-->
+            </div><!--/row-->
         {% endfor %}
     </div>
     {% else %}

@@ -14,12 +14,12 @@
 <div class="hero-unit">
     <h1>All Chores</h1>
 </div>
-<form action="{% url 'search' %}" method="POST">
+<form action="" method="POST">
 {% csrf_token %}
     {{ search_form }}
-    <input type="submit" class="btn" value="Search &raquo;"/>
+    <input type="submit" class="btn" value="Apply &raquo;"/>
+    <a class="btn" href="{% url 'clear_all_chores_filter' %}">Clear &raquo;</a></p>
 </form>
-
 
 <div class="hero-unit">
     <h1>Overdue</h1>

@@ -13,6 +13,8 @@ def last_year():
 def two_hundred_days_ago():
     return timezone.now() - timezone.timedelta(days=200)
 
+def one_hundred_days_ago():
+    return timezone.now() - timezone.timedelta(days=200)
 
 class History(models.Model):
     chore = models.ForeignKey('chores.Chores')
@@ -26,10 +28,31 @@ class History(models.Model):
         return '{}'.format(self.chore)
 
 
+class Category(models.Model):
+    title = models.CharField(max_length=100, db_index=True)
+    slug = models.SlugField(max_length=100, db_index=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.title)
+
+        super(Category, self).save()
+
+    def __unicode__(self):
+        return '{}'.format(self.title)
+
+    class Meta:
+        ordering = ('title', )
+
+    @permalink
+    def get_absolute_url(self):
+        return 'view_category', None, {'slug': self.slug}
+
+
 class Chores(models.Model):
     title = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
-    category = models.ForeignKey('chores.Category')
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     primary_assignee = models.ForeignKey(User, related_name='primary_assignee')
     secondary_assignee = models.ForeignKey(User, null=True, blank=True, related_name='secondary_assignee')
     frequency_in_days = models.IntegerField(default=0)
@@ -54,22 +77,3 @@ class Chores(models.Model):
         return 'view_chore', None, {'slug': self.slug}
 
 
-class Category(models.Model):
-    title = models.CharField(max_length=100, db_index=True)
-    slug = models.SlugField(max_length=100, db_index=True, unique=True)
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.title)
-
-        super(Category, self).save()
-
-    def __unicode__(self):
-        return '{}'.format(self.title)
-
-    class Meta:
-        ordering = ('title', )
-
-    @permalink
-    def get_absolute_url(self):
-        return 'view_category', None, {'slug': self.slug}

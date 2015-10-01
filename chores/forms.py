@@ -52,4 +52,4 @@ class CategoryForm(ModelForm):
 
 
 class SearchForm(forms.Form):
-    search_term = forms.CharField(label='Search', max_length=100)
+    search_term = forms.CharField(label='Filter', max_length=100)
