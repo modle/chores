@@ -3,11 +3,9 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from django.utils.text import slugify
-import itertools
-
+from django.db import IntegrityError
 
 from chores.models import Chores, Category, History
 
@@ -109,16 +107,14 @@ def profile(request, slug):
         if form.is_valid():
 
             formpost = form.save(commit=False)
-            original = slugify(formpost.title)
 
-            for x in itertools.count(1):
-                if not Chores.objects.filter(slug=slug).exists():
-                    break
-                slug = '{}-{}'.format(original, x)
+            # prevents error on duplicate, but would also like to pass message to profile view
+            try:
+                formpost.save()
+                return HttpResponseRedirect(reverse('profile', args=[request.user]))
 
-            formpost.save()
-
-        return HttpResponseRedirect(reverse('profile', args=[request.user]))
+            except IntegrityError as e:
+                return HttpResponseRedirect(reverse('profile', args=[request.user]))
 
     else:
         form = ChoresForm()
