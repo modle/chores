@@ -17,15 +17,16 @@ from chores.models import Chores, Category, History
 @user_passes_test(lambda u: u.is_superuser, login_url='login')
 def index(request):
 
-    chores = Chores.objects.all()
-    search_form = SearchForm()
-
-    return render_to_response('index.html', {
-        'chores': chores,
-        'search_form': search_form,
-        },
-        context_instance=RequestContext(request)
-    )
+    return HttpResponseRedirect(reverse('profile', args=[request.user]))
+    # chores = Chores.objects.all()
+    # search_form = SearchForm()
+    #
+    # return render_to_response('index.html', {
+    #     'chores': chores,
+    #     'search_form': search_form,
+    #     },
+    #     context_instance=RequestContext(request)
+    # )
 
 
 def view_category(request, slug):

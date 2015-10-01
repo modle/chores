@@ -10,8 +10,8 @@ from chores.choices import *
 def last_year():
     return timezone.now() - timezone.timedelta(days=365)
 
-def one_hundred_days_ago():
-    return timezone.now() - timezone.timedelta(days=100)
+def two_hundred_days_ago():
+    return timezone.now() - timezone.timedelta(days=200)
 
 
 class History(models.Model):
@@ -23,7 +23,7 @@ class History(models.Model):
         ordering = ('-complete_date', '-id')
 
     def __unicode__(self):
-        return '{} {}'.format(self.comment, self.blog)
+        return '{}'.format(self.chore)
 
 
 class Chores(models.Model):
@@ -33,7 +33,7 @@ class Chores(models.Model):
     primary_assignee = models.ForeignKey(User, related_name='primary_assignee')
     secondary_assignee = models.ForeignKey(User, null=True, blank=True, related_name='secondary_assignee')
     frequency_in_days = models.IntegerField(default=0)
-    last_completed_date = models.DateTimeField(default=one_hundred_days_ago)
+    last_completed_date = models.DateTimeField(default=two_hundred_days_ago)
     last_completed_by = models.ForeignKey(User, related_name='last_completed_by', null=True, blank=True)
     priority = models.IntegerField(choices=PRIORITY_CHOICES, default=1)
 
@@ -51,7 +51,7 @@ class Chores(models.Model):
 
     @permalink
     def get_absolute_url(self):
-        return 'view_blog_post', None, {'slug': self.slug}
+        return 'view_chore', None, {'slug': self.slug}
 
 
 class Category(models.Model):
@@ -73,6 +73,3 @@ class Category(models.Model):
     @permalink
     def get_absolute_url(self):
         return 'view_category', None, {'slug': self.slug}
-
-
-

@@ -3,7 +3,6 @@
 
     <h2>You are logged in</h2>
     <p>
-        <a href="{% url 'index' %}">Home</a> |
         <a href="{% url 'profile' user.username %}">Your Profile</a> |
         <a href="{% url 'logout' %}?next={% url 'loggedout' %}">Logout</a>
     </p>
