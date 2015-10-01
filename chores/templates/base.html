@@ -39,13 +39,13 @@
                         <a href="{% url 'logout' %}?next={% url 'loggedout' %}">Logout</a>
                     {% else %}
                         <a href="{% url 'login' %}">Login</a>
-                        <a href="{% url 'register' %}">Sign Up</a>
                     {% endif %}
                 </p>
                 <ul class="nav">
                     <li class="active"><a href="{% url 'index' %}">Home</a></li>
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'profile' user.username %}">Your Profile</a></li>
+                        <li><a href="{% url 'profile' user.username %}">Your Chores</a></li>
+                        <li><a href="{% url 'all_chores' %}">All Chores</a></li>
                     {% endif %}
                     <!--<li><a href="#projects">Projects</a></li>-->
                     <!--<li><a href="#about">About</a></li>-->

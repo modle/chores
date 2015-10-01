@@ -4,10 +4,10 @@
 
 {% block content %}
 <div class="hero-unit">
-    <h1>Your Current Chores</h1>
+    <h1>{{ user.username }}'s Chores</h1>
 </div>
 <div class="container-fluid">
-    <button type="button" class="btn" data-toggle="collapse" data-target=".newp ost-collapse">Show Add Chore Form</button>
+    <button type="button" class="btn" data-toggle="collapse" data-target=".newpost-collapse">Add a Chore</button>
     <div class="newpost-collapse collapse">
         <form method="POST" action="">
             {% csrf_token %}

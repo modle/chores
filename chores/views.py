@@ -4,8 +4,6 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.forms import UserCreationForm
-from django.core.context_processors import csrf
 from datetime import datetime
 from django.utils.text import slugify
 import itertools
@@ -18,15 +16,20 @@ from chores.models import Chores, Category, History
 def index(request):
 
     return HttpResponseRedirect(reverse('profile', args=[request.user]))
-    # chores = Chores.objects.all()
-    # search_form = SearchForm()
-    #
-    # return render_to_response('index.html', {
-    #     'chores': chores,
-    #     'search_form': search_form,
-    #     },
-    #     context_instance=RequestContext(request)
-    # )
+
+
+@user_passes_test(lambda u: u.is_superuser, login_url='login')
+def all_chores(request):
+
+    chores = Chores.objects.all()
+    search_form = SearchForm()
+
+    return render_to_response('all_chores.html', {
+        'chores': chores,
+        'search_form': search_form,
+        },
+        context_instance=RequestContext(request)
+    )
 
 
 def view_category(request, slug):
@@ -96,35 +99,6 @@ def edit_chore(request, slug):
 
     return render_to_response('edit_chore.html', {'form': form, },
                               context_instance=RequestContext(request))
-
-
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-        return HttpResponseRedirect('/accounts/register/complete')
-
-    else:
-        form = UserCreationForm()
-
-    token = {}
-    token.update(csrf(request))
-    token['form'] = form
-
-    return render_to_response(
-        'registration/registration_form.html',
-        token,
-        context_instance=RequestContext(request)
-    )
-
-
-def registration_complete(request):
-    return render_to_response(
-        'registration/registration_complete.html',
-        context_instance=RequestContext(request)
-    )
-
 
 def notauthorized(request):
     return render_to_response(

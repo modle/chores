@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load markdown_deux_tags %}
+{% load chores_extras %}
+
+{% block title %}
+    <meta charset="utf-8">
+    <title>Chores</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="chores">
+    <meta name="author" content="Matthew Odle">
+{% endblock %}
+
+{% block content %}
+<div class="hero-unit">
+    <h1>All Chores</h1>
+</div>
+<form action="{% url 'search' %}" method="POST">
+{% csrf_token %}
+    {{ search_form }}
+    <input type="submit" class="btn" value="Search &raquo;"/>
+</form>
+
+
+<div class="hero-unit">
+    <h1>Overdue</h1>
+</div>
+{% for chore in chores %}
+{% if chore.last_completed_date|overdue:chore.frequency_in_days > 0 %}
+    {% include "chore_block.html" %}
+{% endif %}
+{% endfor %}
+
+<div class="hero-unit">
+    <h1>Due Today</h1>
+</div>
+{% for chore in chores %}
+{% if chore.last_completed_date|overdue:chore.frequency_in_days = 0 %}
+    {% include "chore_block.html" %}
+{% endif %}
+{% endfor %}
+
+<div class="hero-unit">
+    <h1>New / Never Completed</h1>
+</div>
+{% for chore in chores %}
+{% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
+    {% include "chore_block.html" %}
+{% endif %}
+{% endfor %}
+
+
+
+
+{% endblock %}

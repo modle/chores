@@ -1,18 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div id="content">
+    <div>
         <form method="POST" action="">
             {% csrf_token %}
-            {{ form.id }}
-            {{ form.title }}<br>{{ form.category.label }}: {{ form.category }}<br>
-            Last {{ form.edited.label }}: {{ form.edited }} <br>
-            Check to publish: {{ form.published }}<br><br>
-            <hr noshade>
-            {{ form.body }}
-            <hr noshade>
+            {{ form }}
             <p>
-                <input class="btn" type="submit" value="Post &raquo;" id="submit"/>
-                <a class="btn" href="{% url 'profile' user.username %}">Cancel &raquo;</a>
+                <input class="btn" type="submit" value="Submit &raquo;" id="submit"/>
             </p>
         </form>
     </div>

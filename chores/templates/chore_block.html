@@ -1,0 +1,20 @@
+<div class="row-fluid">
+    <div class="span12">
+        <p><b>{{ chore.title }}</b> - <span class="small-caps-header">{{ chore.category }}</span>
+            | Assigned To: <span class="small-caps-header">{{ chore.primary_assignee }}</span></p>
+        <p>Last Completed by <span class="small-caps-header">{{ chore.last_completed_by }}</span> on
+        <span class="small-caps-header">{{ chore.last_completed_date|date:"l" }}, {{ chore.last_completed_date|date }}</span></p>
+        <p>Priority:
+        {% if chore.priority = 1 %}
+            <span style="color:red; font-weight:bold">{{ chore.get_priority_display }}</span>
+        {% elif chore.priority = 2 %}
+            <span style="color:#FFB90F; font-weight:bold">{{ chore.get_priority_display }}</span>
+        {% else %}
+            <span style="color:green; font-weight:bold">{{ chore.get_priority_display }}</span>
+        {% endif %}
+        </p>
+        <p><a class="btn" href="{% url 'edit_chore' chore.slug %}">Edit &raquo;</a>
+        <a class="btn" href="{% url 'mark_chore_done' chore.slug %}">Mark Done &raquo;</a></p>
+        <hr>
+    </div><!--/span-->
+</div><!--/row-->
