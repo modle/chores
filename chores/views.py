@@ -91,11 +91,11 @@ def delete_category(request, slug):
     return HttpResponseRedirect(reverse('all_categories'))
 
 
-def category_count(slug):
-    categories = Category.objects.extra(select={'total': 'select count(r.category_id) ' +
-                                                                           'from chores_chores c ' +
-                                                                           'where c.category_id = chores_category.id '
-                                                                  })
+def category_count():
+    categories = Category.objects.extra(select={'total': 'select count(c.category_id) ' +
+                                                         'from chores_chores c ' +
+                                                         'where c.category_id = chores_category.id '
+                                                })
     return categories
 
 

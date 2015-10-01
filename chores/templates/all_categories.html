@@ -21,7 +21,7 @@
 </form>
 
 {% for category in categories%}
-    <a href="{% url 'view_category' category.slug %}">{{ category.title }}</a>
+    <a href="{% url 'view_category' category.slug %}">{{ category.title }}</a> ({{ category.total }})
     <a href="{% url 'delete_category' category.slug %}">Delete</a>
     <br>
 {% endfor %}
