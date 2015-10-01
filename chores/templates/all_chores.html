@@ -25,27 +25,38 @@
     <h1>Overdue</h1>
 </div>
 {% for chore in chores %}
-{% if chore.last_completed_date|overdue:chore.frequency_in_days > 0 %}
-    {% include "chore_block.html" %}
-{% endif %}
+    {% if chore.last_completed_date|overdue:chore.frequency_in_days > 0 %}
+        {% if chore.last_completed_date|overdue:chore.frequency_in_days < 999 %}
+            {% include "chore_block.html" %}
+        {% endif %}
+    {% endif %}
 {% endfor %}
 
 <div class="hero-unit">
     <h1>Due Today</h1>
 </div>
 {% for chore in chores %}
-{% if chore.last_completed_date|overdue:chore.frequency_in_days = 0 %}
-    {% include "chore_block.html" %}
-{% endif %}
+    {% if chore.last_completed_date|overdue:chore.frequency_in_days = 0 %}
+        {% include "chore_block.html" %}
+    {% endif %}
+{% endfor %}
+
+<div class="hero-unit">
+    <h1>Upcoming</h1>
+</div>
+{% for chore in chores %}
+    {% if chore.last_completed_date|overdue:chore.frequency_in_days < 0 %}
+        {% include "chore_block.html" %}
+    {% endif %}
 {% endfor %}
 
 <div class="hero-unit">
     <h1>New / Never Completed</h1>
 </div>
 {% for chore in chores %}
-{% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
-    {% include "chore_block.html" %}
-{% endif %}
+    {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
+        {% include "chore_block.html" %}
+    {% endif %}
 {% endfor %}
 
 

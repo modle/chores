@@ -71,9 +71,8 @@ class Chores(models.Model):
 
     class Meta:
         ordering = ('-id', )
+        unique_together = ('slug', 'category', )
 
     @permalink
     def get_absolute_url(self):
         return 'view_chore', None, {'slug': self.slug}
-
-

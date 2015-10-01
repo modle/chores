@@ -1,7 +1,11 @@
 <div class="row-fluid">
     <div class="span12">
-        <p><b>{{ chore.title }}</b> - <span class="small-caps-header">{{ chore.category }}</span>
-            | Assigned To: <span class="small-caps-header">{{ chore.primary_assignee }}</span></p>
+        <p><b>{{ chore.title }}</b> -
+            <span class="small-caps-header">
+                {% if chore.category %}{{ chore.category }}{% else %}No Category{% endif %}
+            </span>
+            | Assigned To: <span class="small-caps-header">{{ chore.primary_assignee }}</span>
+        </p>
         <p>Last Completed by <span class="small-caps-header">{{ chore.last_completed_by }}</span> on
         <span class="small-caps-header">{{ chore.last_completed_date|date:"l" }}, {{ chore.last_completed_date|date }}</span></p>
         <p>Priority:
