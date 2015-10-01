@@ -50,8 +50,8 @@ class Category(models.Model):
 
 
 class Chores(models.Model):
-    title = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=100, unique=True)
+    title = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     primary_assignee = models.ForeignKey(User, related_name='primary_assignee')
     secondary_assignee = models.ForeignKey(User, null=True, blank=True, related_name='secondary_assignee')
