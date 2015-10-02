@@ -28,8 +28,10 @@
     <div class="row-fluid">
         <div class="span12">
             <p><b>{{ chore.title }}</b> - <span class="small-caps-header">{{ chore.category }}</span></p>
-            <p>Last Completed by <span class="small-caps-header">{{ chore.last_completed_by }}</span> on
-            <span class="small-caps-header">{{ chore.last_completed_date|date:"l" }} | {{ chore.last_completed_date|date }}</span></p>
+            {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
+                <p>Last Completed by <span class="small-caps-header">{{ chore.last_completed_by }}</span> on
+                <span class="small-caps-header">{{ chore.last_completed_date|date:"l" }} | {{ chore.last_completed_date|date }}</span></p>
+            {% endif %}
             {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
                 <p>Overdue by: <span class="small-caps-header">Too long</span></p>
             {% elif chore.last_completed_date|overdue:chore.frequency_in_days = 0 %}
