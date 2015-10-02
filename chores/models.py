@@ -51,7 +51,7 @@ class Category(models.Model):
 
 class Chores(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     primary_assignee = models.ForeignKey(User, related_name='primary_assignee')
     secondary_assignee = models.ForeignKey(User, null=True, blank=True, related_name='secondary_assignee')
@@ -71,7 +71,6 @@ class Chores(models.Model):
 
     class Meta:
         ordering = ('-id', )
-        unique_together = ('slug', 'category', )
 
     @permalink
     def get_absolute_url(self):
