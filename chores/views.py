@@ -156,6 +156,7 @@ def mark_chore_done(request, slug):
     chore = get_object_or_404(Chores, slug=slug)
 
     chore.last_completed_date = datetime.now()
+    chore.last_completed_by_id = request.user
     chore.save()
 
     h = History(chore=chore, complete_date=datetime.now(), user=request.user)

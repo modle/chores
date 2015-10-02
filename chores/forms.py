@@ -2,7 +2,6 @@ import itertools
 
 from django import forms
 from django.forms import ModelForm
-from django.utils.text import slugify
 from chores.choices import *
 
 from .models import Chores, Category
