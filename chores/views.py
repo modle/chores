@@ -48,6 +48,12 @@ def clear_all_chores_filter(request):
 
 
 @login_required()
+def clear_view_history_filter(request):
+
+    return HttpResponseRedirect(reverse('view_chores_history'))
+
+
+@login_required()
 def all_categories(request):
 
     category_form = CategoryForm()
@@ -127,6 +133,32 @@ def profile(request, slug):
         },
         context_instance=RequestContext(request)
     )
+
+
+@login_required()
+def view_chores_history(request):
+    search_form = SearchForm()
+
+    if request.method == 'POST':
+        search_form = SearchForm(request.POST)
+
+        if search_form.is_valid():
+            search_term = search_form.cleaned_data['search_term']
+
+            chores_history = History.objects.filter(chore__title__icontains=search_term)
+        else:
+            chores_history = History.objects.all()
+    else:
+        chores_history = History.objects.all()
+
+    return render_to_response('view_chores_history.html', {
+        'chores_history': chores_history,
+        'search_form': search_form,
+    },
+
+        context_instance=RequestContext(request)
+    )
+
 
 
 @login_required()

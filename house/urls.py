@@ -12,9 +12,11 @@ urlpatterns = [
     url(r'^chores/edit_chore/(?P<slug>[^\.]+).html', 'chores.views.edit_chore', name='edit_chore'),
     url(r'^chores/all_chores.html', 'chores.views.all_chores', name='all_chores'),
     url(r'^chores/all_categories.html', 'chores.views.all_categories', name='all_categories'),
+    url(r'^chores/view_chores_history.html', 'chores.views.view_chores_history', name='view_chores_history'),
 
     url(r'^(?P<slug>[^\.]+)/mark_chore_done/$', 'chores.views.mark_chore_done', name='mark_chore_done'),
     url(r'^clear_all_chores_filter/$', 'chores.views.clear_all_chores_filter', name='clear_all_chores_filter'),
+    url(r'^clear_view_history_filter/$', 'chores.views.clear_view_history_filter', name='clear_view_history_filter'),
     url(r'^(?P<slug>[^\.]+)/delete_category/$', 'chores.views.delete_category', name='delete_category'),
 
 ]

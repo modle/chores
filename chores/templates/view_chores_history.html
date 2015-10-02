@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load markdown_deux_tags %}
+{% load chores_extras %}
+
+{% block title %}
+    <meta charset="utf-8">
+    <title>Chores</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="all chores history">
+    <meta name="author" content="Matthew Odle">
+{% endblock %}
+
+{% block content %}
+<form action="" method="POST">
+{% csrf_token %}
+    {{ search_form }}
+    <input type="submit" class="btn" value="Apply &raquo;"/>
+    <a class="btn" href="{% url 'clear_view_history_filter' %}">Clear &raquo;</a></p>
+</form>
+
+<div class="hero-unit">
+    <h1>History</h1>
+</div>
+
+<ul>
+    {% for chore in chores_history %}
+    <li>
+        <b>{{ chore.chore }} </b>|
+        {{ chore.complete_date}} |
+        {{ chore.user }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
