@@ -130,25 +130,10 @@ def profile(request, slug):
                 if 'duplicate key' in str(e):
                     messages.error(request, new_chore + ' already exists for category ' + str(new_chore_category) + '!')
 
-                chores = Chores.objects.filter(primary_assignee=user.id)
-
-                return render_to_response('profile.html', {
-                    'chores': chores,
-                    'form': form,
-                    },
-                    context_instance=RequestContext(request)
-                )
         else:
             form = ChoresForm(request.POST)
-            chores = Chores.objects.filter(primary_assignee=user.id)
             messages.error(request, 'Please correct the indicated form errors.')
 
-            return render_to_response('profile.html', {
-                'chores': chores,
-                'form': form,
-                },
-                context_instance=RequestContext(request)
-            )
     else:
         form = ChoresForm()
 

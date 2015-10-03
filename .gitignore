@@ -9,3 +9,5 @@ venv/
 localsettings.py*
 
 .gitignore.save
+
+.idea/
