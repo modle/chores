@@ -163,6 +163,8 @@ def view_chores_history(request):
 
 @login_required()
 def edit_chore(request, slug):
+    # successful form save = redirect to all chores
+    # unsuccessful = redirect to edit chore
     if request.method == 'POST':
         form = ChoresForm(request.POST, instance=Chores.objects.get(slug=slug))
 
@@ -171,16 +173,13 @@ def edit_chore(request, slug):
             formpost.user = request.user
             formpost.edited = datetime.now()
             formpost.save()
+            return HttpResponseRedirect(reverse('all_chores'))
 
-        chore = Chores.objects.get(slug=slug)
-        form = ChoresForm(instance=chore)
-
-    else:
-        chore = Chores.objects.get(slug=slug)
-        form = ChoresForm(instance=chore)
+    chore = Chores.objects.get(slug=slug)
+    form = ChoresForm(instance=chore)
 
     return render_to_response('edit_chore.html', {'form': form, },
-                              context_instance=RequestContext(request))
+                          context_instance=RequestContext(request))
 
 
 @login_required()
