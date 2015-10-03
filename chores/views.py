@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.db import IntegrityError
 import re
+from django.contrib import messages
 
 from chores.models import Chores, Category, History
 
@@ -114,15 +115,40 @@ def profile(request, slug):
         if form.is_valid():
 
             formpost = form.save(commit=False)
+            new_chore = formpost.title
+            new_chore_category = formpost.category
 
             # prevents error on duplicate, but would also like to pass message to profile view
             try:
                 formpost.save()
+                messages.success(request, new_chore + ' added for category ' + str(new_chore_category) + '!')
                 return HttpResponseRedirect(reverse('profile', args=[request.user]))
 
             except IntegrityError as e:
-                return HttpResponseRedirect(reverse('profile', args=[request.user]))
+                form = ChoresForm(request.POST)
 
+                if 'duplicate key' in str(e):
+                    messages.error(request, new_chore + ' already exists for category ' + str(new_chore_category) + '!')
+
+                chores = Chores.objects.filter(primary_assignee=user.id)
+
+                return render_to_response('profile.html', {
+                    'chores': chores,
+                    'form': form,
+                    },
+                    context_instance=RequestContext(request)
+                )
+        else:
+            form = ChoresForm(request.POST)
+            chores = Chores.objects.filter(primary_assignee=user.id)
+            messages.error(request, 'Please correct the indicated form errors.')
+
+            return render_to_response('profile.html', {
+                'chores': chores,
+                'form': form,
+                },
+                context_instance=RequestContext(request)
+            )
     else:
         form = ChoresForm()
 

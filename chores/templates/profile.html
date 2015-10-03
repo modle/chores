@@ -7,7 +7,14 @@
     <h1>{{ user.username }}'s Chores</h1>
 </div>
 
-{{ message }}
+
+
+{% for message in messages %}
+    <p style="font-weight:bold">{{ message }}</p>
+{% endfor %}
+
+
+
 <div class="container-fluid">
     <button type="button" class="btn" data-toggle="collapse" data-target=".newpost-collapse">Add a Chore</button>
     <div class="newpost-collapse collapse">
