@@ -6,6 +6,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.db import IntegrityError
+import re
 
 from chores.models import Chores, Category, History
 
@@ -160,7 +161,6 @@ def view_chores_history(request):
     )
 
 
-
 @login_required()
 def edit_chore(request, slug):
     # successful form save = redirect to all chores
@@ -184,6 +184,8 @@ def edit_chore(request, slug):
 
 @login_required()
 def mark_chore_done(request, slug):
+    # if chore completed by someone other than primary - then done from all-chores page, so redirect there
+    # if chore completed by primary, redirect to profile
     chore = get_object_or_404(Chores, slug=slug)
 
     chore.last_completed_date = datetime.now()
@@ -193,7 +195,14 @@ def mark_chore_done(request, slug):
     h = History(chore=chore, complete_date=datetime.now(), user=request.user)
     h.save()
 
-    return HttpResponseRedirect(reverse('profile', args=(request.user,)))
+    referer = request.META.get('HTTP_REFERER')
+    referer = re.sub('^https?:\/\/', '', referer).split('/')
+    redirect = referer[2].replace('.html','')
+
+    if redirect == 'all_chores':
+        return HttpResponseRedirect(reverse(redirect))
+    else:
+        return HttpResponseRedirect(reverse(redirect, args=[request.user]))
 
 
 def notauthorized(request):
