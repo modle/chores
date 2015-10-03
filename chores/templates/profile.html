@@ -32,13 +32,16 @@
                 <p>Last Completed by <span class="small-caps-header">{{ chore.last_completed_by }}</span> on
                 <span class="small-caps-header">{{ chore.last_completed_date|date:"l" }} | {{ chore.last_completed_date|date }}</span></p>
             {% endif %}
-            {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
-                <p>Overdue by: <span class="small-caps-header">Too long</span></p>
-            {% elif chore.last_completed_date|overdue:chore.frequency_in_days = 0 %}
-                <p>Due: <span class="small-caps-header">Today</span></p>
-            {% else %}
-                <p>Overdue: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days }} day(s)</span></p>
-            {% endif %}
+            <p>
+                {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
+                    Overdue by: <span class="small-caps-header">Too long</span> |
+                {% elif chore.last_completed_date|overdue:chore.frequency_in_days = 0 %}
+                    Due: <span class="small-caps-header">Today</span> |
+                {% else %}
+                    Overdue: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days }} day(s)</span> |
+                {% endif %}
+                Frequency: <span class="small-caps-header">{{ chore.frequency_in_days }} day(s)</span>
+            </p>
             <p>Priority:
             {% if chore.priority = 1 %}
                 <span style="color:red; font-weight:bold">{{ chore.get_priority_display }}</span>

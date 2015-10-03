@@ -6,7 +6,6 @@ venv/
 
 *.idea
 
-localsettings.py
-localsettings.pyc
+localsettings.py*
 
 .gitignore.save

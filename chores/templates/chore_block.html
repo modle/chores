@@ -14,22 +14,23 @@
             <span class="small-caps-header">{{ chore.last_completed_date|date:"l" }}, {{ chore.last_completed_date|date }}</span></p>
         {% endif %}
         <p>Priority:
-        {% if chore.priority = 1 %}
-            <span style="color:red; font-weight:bold">{{ chore.get_priority_display }}</span>
-        {% elif chore.priority = 2 %}
-            <span style="color:#FFB90F; font-weight:bold">{{ chore.get_priority_display }}</span>
-        {% else %}
-            <span style="color:green; font-weight:bold">{{ chore.get_priority_display }}</span>
-        {% endif %}
-        {% if chore.last_completed_date|overdue:chore.frequency_in_days > 0 %}
-            {% if chore.last_completed_date|overdue:chore.frequency_in_days < 999 %}
-                <p>Overdue by: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days }} day(s)</span></p>
+            {% if chore.priority = 1 %}
+                <span style="color:red; font-weight:bold">{{ chore.get_priority_display }}</span>
+            {% elif chore.priority = 2 %}
+                <span style="color:#FFB90F; font-weight:bold">{{ chore.get_priority_display }}</span>
+            {% else %}
+                <span style="color:green; font-weight:bold">{{ chore.get_priority_display }}</span>
             {% endif %}
-        {% endif %}
-        {% if chore.last_completed_date|overdue:chore.frequency_in_days < 0 %}
-            <p>Due in: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days|absolute }} day(s)</span></p>
-        {% endif %}
-
+        </p>
+        <p>
+            {% if chore.last_completed_date|overdue:chore.frequency_in_days > 0 %}
+                {% if chore.last_completed_date|overdue:chore.frequency_in_days < 999 %}
+                    Overdue by: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days }} day(s)</span> |
+                {% endif %}
+            {% elif chore.last_completed_date|overdue:chore.frequency_in_days < 0 %}
+                Due in: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days|absolute }} day(s)</span> |
+            {% endif %}
+            Frequency: <span class="small-caps-header">{{ chore.frequency_in_days }} day(s)</span>
         </p>
         <p><a class="btn" href="{% url 'edit_chore' chore.slug %}">Edit &raquo;</a>
         <a class="btn" href="{% url 'mark_chore_done' chore.slug %}">Mark Done &raquo;</a></p>
