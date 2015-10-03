@@ -10,4 +10,4 @@ localsettings.py*
 
 .gitignore.save
 
-.idea/
+.idea/*

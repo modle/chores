@@ -125,13 +125,10 @@ def profile(request, slug):
                 return HttpResponseRedirect(reverse('profile', args=[request.user]))
 
             except IntegrityError as e:
-                form = ChoresForm(request.POST)
-
                 if 'duplicate key' in str(e):
                     messages.error(request, new_chore + ' already exists for category ' + str(new_chore_category) + '!')
 
         else:
-            form = ChoresForm(request.POST)
             messages.error(request, 'Please correct the indicated form errors.')
 
     else:

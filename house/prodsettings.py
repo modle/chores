@@ -17,3 +17,5 @@ DATABASES = {
         'PORT': url.port
     }
 }
+
+DEBUG = os.environ["DEBUG"]
