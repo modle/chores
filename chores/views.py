@@ -4,10 +4,12 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
+from django.utils import timezone
 from django.db import IntegrityError
 import re
 from django.contrib import messages
+import math
+import pytz
 
 from chores.models import Chores, Category, History
 
@@ -179,7 +181,6 @@ def edit_chore(request, slug):
         if form.is_valid():
             formpost = form.save(commit=False)
             formpost.user = request.user
-            formpost.edited = datetime.now()
             formpost.save()
             return HttpResponseRedirect(reverse('all_chores'))
 
@@ -196,12 +197,25 @@ def mark_chore_done(request, slug):
     # if chore completed by primary, redirect to profile
     chore = get_object_or_404(Chores, slug=slug)
 
-    chore.last_completed_date = datetime.now()
-    chore.last_completed_by_id = request.user
-    chore.save()
+    utc=pytz.UTC
+    td = timezone.now() - chore.last_completed_date
 
-    h = History(chore=chore, complete_date=datetime.now(), user=request.user)
-    h.save()
+    if td.days >= chore.frequency_in_days:
+
+        chore.last_completed_date = timezone.now().replace(tzinfo=utc)
+        chore.last_completed_by_id = request.user
+        chore.save()
+
+        score=math.ceil(chore.time_in_minutes*chore.effort/10.0)
+
+        h = History(chore=chore, complete_date=timezone.now(), user=request.user, score=score,)
+        h.save()
+
+        messages.success(request, 'Chore ' + chore.title + ' for category ' + str(chore.category) +
+                         ' marked done! You scored ' + str(int(score)) + ' points!')
+
+    else:
+        messages.error(request, 'Chore ' + chore.title + ' not marked done. It was too recently completed.')
 
     referer = request.META.get('HTTP_REFERER')
     referer = re.sub('^https?:\/\/', '', referer).split('/')
@@ -232,3 +246,6 @@ def loggedout(request):
         'registration/loggedout.html',
         context_instance=RequestContext(request)
     )
+
+def epoch_seconds(timestamp):
+    return (timestamp - datetime(1970, 1, 1, tzinfo=pytz.utc)).total_seconds()

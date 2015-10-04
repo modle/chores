@@ -14,6 +14,11 @@
 <div class="hero-unit">
     <h1>All Chores</h1>
 </div>
+
+{% for message in messages %}
+    <p style="font-weight:bold">{{ message }}</p>
+{% endfor %}
+
 <form action="" method="POST">
 {% csrf_token %}
     {{ search_form }}
