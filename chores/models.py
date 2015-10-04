@@ -20,6 +20,8 @@ class History(models.Model):
     chore = models.ForeignKey('chores.Chores')
     complete_date = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, null=True, blank=True)
+    score = models.IntegerField(default=0)
+    redeemed = models.BooleanField(default=False, null=False)
 
     class Meta:
         ordering = ('-complete_date', '-id')
@@ -60,6 +62,8 @@ class Chores(models.Model):
     last_completed_date = models.DateTimeField(default=two_hundred_days_ago)
     last_completed_by = models.ForeignKey(User, related_name='last_completed_by', null=True, blank=True)
     priority = models.IntegerField(choices=PRIORITY_CHOICES, default=1)
+    time_in_minutes = models.IntegerField(null=False)
+    effort = models.IntegerField(choices=EFFORT_CHOICES, default=3)
 
     def save(self, *args, **kwargs):
         if not self.id:
