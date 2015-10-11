@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load markdown_deux_tags %}
+{% load chores_extras %}
+
+{% block title %}
+    <meta charset="utf-8">
+    <title>Rewards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="rewards">
+    <meta name="author" content="Matthew Odle">
+{% endblock %}
+
+{% block content %}
+<div class="hero-unit">
+    <h1>All Rewards</h1>
+</div>
+
+{% for message in messages %}
+    <p style="font-weight:bold;">{{ message }}</p>
+{% endfor %}
+
+<form action="" method="POST">
+{% csrf_token %}
+    {{ rewards_form }}
+    <input type="submit" class="btn" value="Add Reward &raquo;"/>
+</form>
+
+{% for reward in rewards_set %}
+
+    <a href="{% url 'redeem_reward' reward.slug %}"
+       onclick="return confirm('Use X points to redeem reward.title?')">Redeem</a>
+    <a href="{% url 'delete_reward' reward.slug %}"
+       onclick="return confirm('Are you sure? This will set the category to none on any associated chores.')">Delete</a>
+    <br>
+{% endfor %}
+
+{% endblock %}

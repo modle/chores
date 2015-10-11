@@ -18,12 +18,12 @@ def one_hundred_days_ago():
 
 class History(models.Model):
     chore = models.ForeignKey('chores.Chores')
-    complete_date = models.DateTimeField(default=timezone.now)
+    completed_date = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, null=True, blank=True)
     score = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ('-complete_date', '-id')
+        ordering = ('-completed_date', '-id')
 
     def __unicode__(self):
         return '{}'.format(self.chore)
@@ -33,7 +33,7 @@ class Score(models.Model):
     user = models.ForeignKey(User, null=True, blank=True)
     current_score = models.IntegerField(default=0)
     total_score = models.IntegerField(default=0)
-    last_redeemed = models.DateTimeField(null=True)
+    last_redeemed_date = models.DateTimeField(null=True)
 
     class Meta:
         ordering = ('user', )
@@ -75,7 +75,7 @@ class Chores(models.Model):
     last_completed_by = models.ForeignKey(User, related_name='last_completed_by', null=True, blank=True)
     priority = models.IntegerField(choices=PRIORITY_CHOICES, default=1)
     time_in_minutes = models.IntegerField(null=False)
-    effort = models.IntegerField(choices=EFFORT_CHOICES, default=3)
+    effort = models.IntegerField(choices=EFFORT_CHOICES, default=1)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -92,3 +92,26 @@ class Chores(models.Model):
     @permalink
     def get_absolute_url(self):
         return 'view_chore', None, {'slug': self.slug}
+
+
+class Rewards(models.Model):
+    title = models.CharField(max_length=100, db_index=True)
+    slug = models.SlugField(max_length=100, db_index=True, unique=True)
+    value = models.IntegerField()
+    last_redeemed_date = models.DateTimeField(null=True)
+    last_redeemed_by = models.ForeignKey(User)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.title)
+        super(Rewards, self).save()
+
+    def __unicode__(self):
+        return '{}'.format(self.title)
+
+    class Meta:
+        ordering = ('title', )
+
+    @permalink
+    def get_absolute_url(self):
+        return 'view_category', None, {'slug': self.slug}

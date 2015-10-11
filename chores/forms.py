@@ -1,10 +1,8 @@
-import itertools
-
 from django import forms
 from django.forms import ModelForm
 from chores.choices import *
 
-from .models import Chores, Category
+from .models import Chores, Category, Rewards
 
 
 class ChoresForm(ModelForm):
@@ -61,3 +59,16 @@ class CategoryForm(ModelForm):
 
 class SearchForm(forms.Form):
     search_term = forms.CharField(label='Filter', max_length=100)
+
+
+class RewardsForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RewardsForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs.update({'placeholder': 'Title'})
+
+    class Meta:
+        model = Rewards
+        fields = ('title', 'value', )
+        labels = {
+            'title': 'title',
+        }

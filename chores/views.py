@@ -108,6 +108,58 @@ def category_count():
 
 
 @login_required()
+def rewards(request):
+
+    rewards_form = RewardsForm()
+    rewards_set = Rewards.objects.all()
+    score = Score.objects.filter(user=request.user)
+
+    if request.method == 'POST':
+        rewards_form = RewardsForm(request.POST)
+
+        if rewards_form .is_valid():
+            rewards_form.save()
+
+    return render_to_response('all_categories.html', {
+        'rewards_set': rewards_set,
+        'rewards_form': rewards_form,
+        'score': score,
+        },
+        context_instance=RequestContext(request)
+    )
+
+
+@login_required()
+def delete_rewards(request, slug):
+    reward = get_object_or_404(Rewards, slug=slug)
+
+    reward.delete()
+    return HttpResponseRedirect(reverse('rewards'))
+
+
+@login_required()
+def redeem_rewards(request, slug):
+    s = get_object_or_404(Score, user=request.user)
+    r = get_object_or_404(Rewards, slug=slug)
+
+    if s.current_score >= r.value:
+        s.current_score -= r.value
+        s.last_redeemed_date = timezone.now()
+        s.save()
+
+        r.last_redeemed_date = timezone.now()
+        r.last_redeemed_by = request.user
+        r.save()
+
+        messages.success(request, r.title + ' redeemed for ' + str(r.value) + ' points!')
+
+    else:
+        messages.error(request, 'You need ' + str(r.value - s.current_score) + ' more points for ' + r.title)
+
+    return HttpResponseRedirect(reverse('rewards'))
+
+
+@login_required()
 def profile(request, slug):
     user = request.user
 
@@ -210,7 +262,7 @@ def mark_chore_done(request, slug):
 
         score_value = math.ceil(chore.time_in_minutes*chore.effort/10.0)
 
-        h = History(chore=chore, complete_date=timezone.now(), user=request.user, score=score_value,)
+        h = History(chore=chore, completed_date=timezone.now(), user=request.user, score=score_value,)
         h.save()
 
         score, created = Score.objects.get_or_create(user=request.user)
@@ -220,7 +272,7 @@ def mark_chore_done(request, slug):
 
         messages.success(request, 'Chore ' + chore.title + ' for category ' + str(chore.category) +
                          ' marked done!')
-        messages.info(request, str(int(score_value)) + ' points!')
+        messages.info(request, str(int(score_value)) + ' point(s)!')
 
     else:
         messages.error(request, 'Chore ' + chore.title + ' not marked done. It was too recently completed.')
