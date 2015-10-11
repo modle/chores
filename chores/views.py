@@ -137,10 +137,12 @@ def profile(request, slug):
         form = ChoresForm()
 
     chores = Chores.objects.filter(primary_assignee=user.id)
+    score = Score.objects.filter(user=user.id)
 
     return render_to_response('profile.html', {
         'chores': chores,
         'form': form,
+        'score': score,
         },
         context_instance=RequestContext(request)
     )
