@@ -53,10 +53,32 @@
 {% endfor %}
 
 <div class="hero-unit">
-    <h1>Upcoming</h1>
+    <h1>Upcoming - less than 1 Week</h1>
 </div>
 {% for chore in chores %}
     {% if chore.last_completed_date|overdue:chore.frequency_in_days < 0 %}
+        {% if chore.last_completed_date|overdue:chore.frequency_in_days >= -7 %}
+            {% include "chore_block.html" %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+<div class="hero-unit">
+    <h1>Upcoming in 1-2 Weeks</h1>
+</div>
+{% for chore in chores %}
+    {% if chore.last_completed_date|overdue:chore.frequency_in_days < -7 %}
+        {% if chore.last_completed_date|overdue:chore.frequency_in_days >= -14 %}
+            {% include "chore_block.html" %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+<div class="hero-unit">
+    <h1>Upcoming 2 Weeks To Forever</h1>
+</div>
+{% for chore in chores %}
+    {% if chore.last_completed_date|overdue:chore.frequency_in_days < -14 %}
         {% include "chore_block.html" %}
     {% endif %}
 {% endfor %}

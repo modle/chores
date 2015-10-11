@@ -31,11 +31,17 @@ def all_chores(request):
         if search_form.is_valid():
             search_term = search_form.cleaned_data['search_term']
 
-            chores = Chores.objects.filter(title__icontains=search_term)
+            chores = Chores.objects.filter(title__icontains=search_term).extra(select={
+                'ordering': 'round(extract(epoch from now()-last_completed_date)/3600)-frequency_in_days'
+            }).extra(order_by=['-ordering'])
         else:
-            chores = Chores.objects.all()
+            chores = Chores.objects.extra(select={
+                'ordering': 'round(extract(epoch from now()-last_completed_date)/3600)-frequency_in_days'
+            }).extra(order_by=['-ordering'])
     else:
-        chores = Chores.objects.all()
+        chores = Chores.objects.extra(select={
+            'ordering': 'round(extract(epoch from now()-last_completed_date)/3600)-frequency_in_days'
+        }).extra(order_by=['-ordering'])
 
     return render_to_response('all_chores.html', {
         'chores': chores,
@@ -201,7 +207,9 @@ def profile(request, slug):
     else:
         form = ChoresForm()
 
-    chores = Chores.objects.filter(primary_assignee=user.id)
+    chores = Chores.objects.filter(primary_assignee=user.id).extra(select={
+        'ordering': 'round(extract(epoch from now()-last_completed_date)/3600)-frequency_in_days'
+    }).extra(order_by=['-ordering'])
     score = Score.objects.filter(user=user.id)
 
     return render_to_response('profile.html', {
