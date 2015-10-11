@@ -5,7 +5,7 @@ PRIORITY_CHOICES = (
 )
 
 EFFORT_CHOICES = (
-    (1, "High"),
+    (1, "Low"),
     (2, "Medium"),
-    (3, "Low"),
+    (3, "High"),
 )

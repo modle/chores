@@ -11,7 +11,7 @@ from django.contrib import messages
 import math
 import pytz
 
-from chores.models import Chores, Category, History
+from chores.models import Chores, Category, History, Score
 
 
 @login_required()
@@ -197,7 +197,7 @@ def mark_chore_done(request, slug):
     # if chore completed by primary, redirect to profile
     chore = get_object_or_404(Chores, slug=slug)
 
-    utc=pytz.UTC
+    utc = pytz.UTC
     td = timezone.now() - chore.last_completed_date
 
     if td.days >= chore.frequency_in_days:
@@ -206,13 +206,19 @@ def mark_chore_done(request, slug):
         chore.last_completed_by_id = request.user
         chore.save()
 
-        score = math.ceil(chore.time_in_minutes*chore.effort/10.0)
+        score_value = math.ceil(chore.time_in_minutes*chore.effort/10.0)
 
-        h = History(chore=chore, complete_date=timezone.now(), user=request.user, score=score,)
+        h = History(chore=chore, complete_date=timezone.now(), user=request.user, score=score_value,)
         h.save()
 
+        score, created = Score.objects.get_or_create(user=request.user)
+        score.current_score += score_value
+        score.total_score += score_value
+        score.save()
+
         messages.success(request, 'Chore ' + chore.title + ' for category ' + str(chore.category) +
-                         ' marked done! You scored ' + str(int(score)) + ' points!')
+                         ' marked done!')
+        messages.info(request, str(int(score_value)) + ' points!')
 
     else:
         messages.error(request, 'Chore ' + chore.title + ' not marked done. It was too recently completed.')

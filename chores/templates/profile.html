@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 {% load markdown_deux_tags %}
 {% load chores_extras %}
+{% load staticfiles %}
 
 {% block content %}
 <div class="hero-unit">
     <h1>{{ user.username }}'s Chores</h1>
 </div>
 
-
-
 {% for message in messages %}
-    <p style="font-weight:bold">{{ message }}</p>
+    {% if message.tags == 'info' %}
+        <p style="color:red; font-weight:bold; font-size:3em;">{{ message }}</p><br>
+        <p><img src="{% static 'bootstrap/img/blueman.png' %}"></p>
+    {% else %}
+        <p style="font-weight:bold;">{{ message }}</p>
+    {% endif %}
 {% endfor %}
-
-
 
 <div class="container-fluid">
     <button type="button" class="btn" data-toggle="collapse" data-target=".newpost-collapse">Add a Chore</button>
