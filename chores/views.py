@@ -188,7 +188,7 @@ def edit_chore(request, slug):
     form = ChoresForm(instance=chore)
 
     return render_to_response('edit_chore.html', {'form': form, },
-                          context_instance=RequestContext(request))
+                              context_instance=RequestContext(request))
 
 
 @login_required()
@@ -206,7 +206,7 @@ def mark_chore_done(request, slug):
         chore.last_completed_by_id = request.user
         chore.save()
 
-        score=math.ceil(chore.time_in_minutes*chore.effort/10.0)
+        score = math.ceil(chore.time_in_minutes*chore.effort/10.0)
 
         h = History(chore=chore, complete_date=timezone.now(), user=request.user, score=score,)
         h.save()
@@ -246,6 +246,3 @@ def loggedout(request):
         'registration/loggedout.html',
         context_instance=RequestContext(request)
     )
-
-def epoch_seconds(timestamp):
-    return (timestamp - datetime(1970, 1, 1, tzinfo=pytz.utc)).total_seconds()

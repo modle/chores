@@ -21,13 +21,25 @@ class History(models.Model):
     complete_date = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, null=True, blank=True)
     score = models.IntegerField(default=0)
-    redeemed = models.BooleanField(default=False, null=False)
 
     class Meta:
         ordering = ('-complete_date', '-id')
 
     def __unicode__(self):
         return '{}'.format(self.chore)
+
+
+class Score(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True)
+    current_score = models.IntegerField(default=0)
+    total_score = models.IntegerField(default=0)
+    last_redeemed = models.DateTimeField(null=True)
+
+    class Meta:
+        ordering = ('user', )
+
+    def __unicode__(self):
+        return '{} : {}'.format(self.user, self.current_score)
 
 
 class Category(models.Model):
