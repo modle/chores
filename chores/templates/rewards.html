@@ -16,22 +16,24 @@
 </div>
 
 {% for message in messages %}
-    <p style="font-weight:bold;">{{ message }}</p>
+    <p style="color:red; font-weight:bold;">{{ message }}</p>
 {% endfor %}
+
+<p>Current points - {% if score %}{{ score.current_score }}{% else %}0{% endif %}</p>
 
 <form action="" method="POST">
 {% csrf_token %}
     {{ rewards_form }}
     <input type="submit" class="btn" value="Add Reward &raquo;"/>
 </form>
-
+<hr>
 {% for reward in rewards_set %}
-
-    <a href="{% url 'redeem_rewards' reward.slug %}"
-       onclick="return confirm('Use X points to redeem reward.title?')">Redeem</a>
-    <a href="{% url 'delete_reward' reward.slug %}"
-       onclick="return confirm('Are you sure? This will set the category to none on any associated chores.')">Delete</a>
-    <br>
+    {{ reward.title }} - {{ reward.value }}
+    <a class='btn' href="{% url 'redeem_reward' reward.slug %}"
+       onclick="return confirm('Are you sure?')">Redeem</a>
+    <a class='btn' href="{% url 'delete_reward' reward.slug %}"
+       onclick="return confirm('Are you sure?')">Delete</a>
+    <hr>
 {% endfor %}
 
 {% endblock %}

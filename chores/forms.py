@@ -69,6 +69,3 @@ class RewardsForm(ModelForm):
     class Meta:
         model = Rewards
         fields = ('title', 'value', )
-        labels = {
-            'title': 'title',
-        }

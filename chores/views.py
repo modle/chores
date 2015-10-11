@@ -112,13 +112,19 @@ def rewards(request):
 
     rewards_form = RewardsForm()
     rewards_set = Rewards.objects.all()
-    score = Score.objects.filter(user=request.user)
+
+    try:
+        score = Score.objects.get(user=request.user)
+    except Score.DoesNotExist:
+        score = Score.objects.filter(user=request.user)
 
     if request.method == 'POST':
         rewards_form = RewardsForm(request.POST)
 
         if rewards_form .is_valid():
             rewards_form.save()
+            rewards_set = Rewards.objects.all()
+            rewards_form = RewardsForm()
 
     return render_to_response('rewards.html', {
         'rewards_set': rewards_set,
@@ -139,6 +145,13 @@ def delete_reward(request, slug):
 
 @login_required()
 def redeem_reward(request, slug):
+
+    try:
+        score = Score.objects.get(user=request.user)
+    except Score.DoesNotExist:
+        messages.error(request, 'You don''t have any points!')
+        return HttpResponseRedirect(reverse('rewards'))
+
     s = get_object_or_404(Score, user=request.user)
     r = get_object_or_404(Rewards, slug=slug)
 

@@ -30,7 +30,7 @@ class History(models.Model):
 
 
 class Score(models.Model):
-    user = models.ForeignKey(User, null=True, blank=True)
+    user = models.OneToOneField(User, null=True, blank=True, unique=True)
     current_score = models.IntegerField(default=0)
     total_score = models.IntegerField(default=0)
     last_redeemed_date = models.DateTimeField(null=True)
