@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load markdown_deux_tags %}
 {% load chores_extras %}
+{% load staticfiles %}
 
 {% block title %}
     <meta charset="utf-8">
@@ -16,7 +17,12 @@
 </div>
 
 {% for message in messages %}
-    <p style="font-weight:bold">{{ message }}</p>
+    {% if message.tags == 'info' %}
+        <p style="color:red; font-weight:bold; font-size:3em;">{{ message }}</p><br>
+        <p><img src="{% static 'bootstrap/img/blueman.png' %}"></p>
+    {% else %}
+        <p style="font-weight:bold;">{{ message }}</p>
+    {% endif %}
 {% endfor %}
 
 <form action="" method="POST">
