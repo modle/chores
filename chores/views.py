@@ -120,7 +120,7 @@ def rewards(request):
         if rewards_form .is_valid():
             rewards_form.save()
 
-    return render_to_response('all_categories.html', {
+    return render_to_response('rewards.html', {
         'rewards_set': rewards_set,
         'rewards_form': rewards_form,
         'score': score,
@@ -130,7 +130,7 @@ def rewards(request):
 
 
 @login_required()
-def delete_rewards(request, slug):
+def delete_reward(request, slug):
     reward = get_object_or_404(Rewards, slug=slug)
 
     reward.delete()
@@ -138,7 +138,7 @@ def delete_rewards(request, slug):
 
 
 @login_required()
-def redeem_rewards(request, slug):
+def redeem_reward(request, slug):
     s = get_object_or_404(Score, user=request.user)
     r = get_object_or_404(Rewards, slug=slug)
 

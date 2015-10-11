@@ -99,7 +99,7 @@ class Rewards(models.Model):
     slug = models.SlugField(max_length=100, db_index=True, unique=True)
     value = models.IntegerField()
     last_redeemed_date = models.DateTimeField(null=True)
-    last_redeemed_by = models.ForeignKey(User)
+    last_redeemed_by = models.ForeignKey(User, null=True)
 
     def save(self, *args, **kwargs):
         if not self.id:

@@ -27,7 +27,7 @@
 
 {% for reward in rewards_set %}
 
-    <a href="{% url 'redeem_reward' reward.slug %}"
+    <a href="{% url 'redeem_rewards' reward.slug %}"
        onclick="return confirm('Use X points to redeem reward.title?')">Redeem</a>
     <a href="{% url 'delete_reward' reward.slug %}"
        onclick="return confirm('Are you sure? This will set the category to none on any associated chores.')">Delete</a>
