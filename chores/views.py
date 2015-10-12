@@ -86,11 +86,11 @@ def all_categories(request):
 @login_required()
 def view_category(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    chores = Chores.objects.all()
+    category_chores = Chores.objects.filter(category=category)
 
     return render_to_response('view_category.html', {
         'category': category,
-        'chores': chores,
+        'category_chores': category_chores,
     },
 
         context_instance=RequestContext(request)

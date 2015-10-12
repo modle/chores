@@ -2,12 +2,12 @@
 {% load markdown_deux_tags %}
 
 {% block content %}
-    {% if categoryposts %}
+    {% if category_chores %}
     <div class="hero-unit">
         <h1>{{ category.title }}</h1>
     </div>
     <div class="row-fluid">
-        {% for chore in chores %}
+        {% for chore in category_chores %}
             <div class="row-fluid">
                 <div class="span12">
                     <p><b>{{ chore.title }}</b> - <span class="small-caps-header">{{ chore.category }}</span>
