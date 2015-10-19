@@ -21,7 +21,7 @@
 {% endfor %}
 
 <div class="container-fluid">
-    <button type="button" class="btn" data-toggle="collapse" data-target=".newpost-collapse">Add a Chore</button>
+    <button type="button" class="btn" data-toggle="collapse" data-target=".newpost-collapse">&#x25B2;&#x25BC;</button>
     <div class="newpost-collapse collapse">
         <form method="POST" action="">
             {% csrf_token %}
@@ -63,7 +63,7 @@
                 <span style="color:green; font-weight:bold">{{ chore.get_priority_display }}</span>
             {% endif %}
             </p>
-            <p><a class="btn" href="{% url 'mark_chore_done' chore.slug %}">Mark Done &raquo;</a></p>
+            <p><a class="btn" href="{% url 'mark_chore_done' chore.slug %}">&#x2714;</a></p>
             <hr>
         </div><!--/span-->
     </div><!--/row-->

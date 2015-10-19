@@ -274,8 +274,9 @@ def mark_chore_done(request, slug):
 
     utc = pytz.UTC
     td = timezone.now() - chore.last_completed_date
+    hours = td.seconds // 3600
 
-    if td.days >= chore.frequency_in_days:
+    if hours >= 12:
 
         chore.last_completed_date = timezone.now().replace(tzinfo=utc)
         chore.last_completed_by_id = request.user

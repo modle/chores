@@ -24,7 +24,7 @@
 <form action="" method="POST">
 {% csrf_token %}
     {{ rewards_form }}
-    <input type="submit" class="btn" value="Add Reward &raquo;"/>
+    <input type="submit" class="btn" value="+"/>
 </form>
 <hr>
 {% for reward in rewards_set %}
@@ -32,7 +32,7 @@
     <a class='btn' href="{% url 'redeem_reward' reward.slug %}"
        onclick="return confirm('Are you sure?')">Redeem</a>
     <a class='btn' href="{% url 'delete_reward' reward.slug %}"
-       onclick="return confirm('Are you sure?')">Delete</a>
+       onclick="return confirm('Are you sure?')">&#x2718;</a>
     <hr>
 {% endfor %}
 

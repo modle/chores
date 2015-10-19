@@ -17,14 +17,15 @@
 <form action="" method="POST">
 {% csrf_token %}
     {{ category_form }}
-    <input type="submit" class="btn" value="Add Category &raquo;"/>
+    <input type="submit" class="btn" value="+"/>
 </form>
 
 {% for category in categories%}
-    <a href="{% url 'view_category' category.slug %}">{{ category.title }}</a> ({{ category.total }})
-    <a href="{% url 'delete_category' category.slug %}"
-       onclick="return confirm('Are you sure? This will set the category to none on any associated chores.')">Delete</a>
-    <br>
+    <p>
+        <a href="{% url 'view_category' category.slug %}">{{ category.title }}</a> ({{ category.total }})
+        <a class="btn" href="{% url 'delete_category' category.slug %}"
+           onclick="return confirm('Are you sure? This will set the category to none on any associated chores.')">&#x2718;</a>
+    </p>
 {% endfor %}
 
 {% endblock %}
