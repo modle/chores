@@ -23,8 +23,8 @@ class ChoresForm(ModelForm):
                   'effort',)
         labels = {
             'title': '',
-            'secondary_assignee': 'Secondary Assignee',
-            'primary_assignee': 'Primary Assignee',
+            'secondary_assignee': 'Backup',
+            'primary_assignee': 'Owner',
             'frequency_in_days': 'Frequency (in days)',
             'priority': 'Priority',
             'time': 'Time (in minutes)',

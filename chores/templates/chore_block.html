@@ -6,7 +6,7 @@
             <span class="small-caps-header">
                 {% if chore.category %}{{ chore.category }}{% else %}No Category{% endif %}
             </span>
-            | Assigned To: <span class="small-caps-header">{{ chore.primary_assignee }}</span>
+            | Owner: <span class="small-caps-header">{{ chore.primary_assignee }}</span>
         </p>
 
         {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
@@ -14,18 +14,18 @@
             <span class="small-caps-header">{{ chore.last_completed_date|date:"l" }}, {{ chore.last_completed_date|date }}</span></p>
         {% endif %}
         <p>Priority:
-            {% if chore.priority = 1 %}
-                <span style="color:red; font-weight:bold">{{ chore.get_priority_display }}</span>
+            {% if chore.priority = 3 %}
+                <span class="small-caps-header" style="color:red; font-weight:bold">{{ chore.get_priority_display }}</span>
             {% elif chore.priority = 2 %}
-                <span style="color:#FFB90F; font-weight:bold">{{ chore.get_priority_display }}</span>
+                <span class="small-caps-header" style="color:#FFB90F; font-weight:bold">{{ chore.get_priority_display }}</span>
             {% else %}
-                <span style="color:green; font-weight:bold">{{ chore.get_priority_display }}</span>
+                <span class="small-caps-header" style="color:green; font-weight:bold">{{ chore.get_priority_display }}</span>
             {% endif %}
         </p>
         <p>
             {% if chore.last_completed_date|overdue:chore.frequency_in_days > 0 %}
                 {% if chore.last_completed_date|overdue:chore.frequency_in_days < 999 %}
-                    Overdue by: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days }} day(s)</span> |
+                    <span style="color:red; font-weight:bold">Overdue by:</span> <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days }} day(s)</span> |
                 {% endif %}
             {% elif chore.last_completed_date|overdue:chore.frequency_in_days < 0 %}
                 Due in: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days|absolute }} day(s)</span> |

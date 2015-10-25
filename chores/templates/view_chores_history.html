@@ -22,10 +22,9 @@
     <h1>History</h1>
 </div>
 
-<table>
 <ul>
     {% for chore in chores_history %}
-    <li>
+    <li style="background-color:{% cycle 'lightblue' 'tan' %}">
         <b>{{ chore.chore }} </b> - {{ chore.chore.category }} |
         {{ chore.completed_date|date }} |
         {{ chore.user }} |
@@ -33,5 +32,4 @@
     </li>
     {% endfor %}
 </ul>
-</table>
 {% endblock %}
