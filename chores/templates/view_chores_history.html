@@ -27,9 +27,9 @@
     {% for chore in chores_history %}
     <li>
         <b>{{ chore.chore }} </b> - {{ chore.chore.category }} |
-        On: {{ chore.completed_date|date }} |
-        By: {{ chore.user }} |
-        For: {{ chore.score }} points
+        {{ chore.completed_date|date }} |
+        {{ chore.user }} |
+        <span style="color:green; font-weight:bold">+{{ chore.score }}</span>
     </li>
     {% endfor %}
 </ul>
