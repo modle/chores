@@ -22,14 +22,16 @@
     <h1>History</h1>
 </div>
 
-<ul>
+<table>
+    <tr><th>Chore</th><th>Category</th><th>Completed On</th><th>By</th><th>Points</th></tr>
     {% for chore in chores_history %}
-    <li>
-        <b>{{ chore.chore }} </b>|
-        {{ chore.completed_date}} |
-        {{ chore.user }} |
-        {{ chore.score }}
-    </li>
+    <tr>
+        <td style="padding:0 1em"><b>{{ chore.chore }} </b></td>
+        <td style="padding:0 1em">{{ chore.chore.category }}</td>
+        <td style="padding:0 1em">{{ chore.completed_date}}</td>
+        <td style="padding:0 1em">{{ chore.user }}</td>
+        <td style="padding:0 1em">{{ chore.score }}</td>
+    </tr>
     {% endfor %}
-</ul>
+</table>
 {% endblock %}
