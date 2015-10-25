@@ -34,15 +34,14 @@
 </div>
 
 <hr noshade>
-
 {% for chore in chores %}
 {% if chore.last_completed_date|overdue:chore.frequency_in_days >= 0 %}
     <div class="row-fluid">
         <div class="span12">
             <p><b>{{ chore.title }}</b> - <span class="small-caps-header">{{ chore.category }}</span></p>
             {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
-                <p>Last Completed by <span class="small-caps-header">{{ chore.last_completed_by }}</span> on
-                <span class="small-caps-header">{{ chore.last_completed_date|date:"l" }} | {{ chore.last_completed_date|date }}</span></p>
+                <p>Last Completed by <span class="small-caps-header" style="color:green; font-weight:bold">{{ chore.last_completed_by }}</span> on
+                <span class="small-caps-header">{{ chore.last_completed_date|date:"l" }}, {{ chore.last_completed_date|date }}</span></p>
             {% endif %}
             <p>
                 {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
