@@ -23,15 +23,15 @@
 </div>
 
 <table>
-    <tr><th>Chore</th><th>Category</th><th>Completed On</th><th>By</th><th>Points</th></tr>
+<ul>
     {% for chore in chores_history %}
-    <tr>
-        <td style="padding:0 1em"><b>{{ chore.chore }} </b></td>
-        <td style="padding:0 1em">{{ chore.chore.category }}</td>
-        <td style="padding:0 1em">{{ chore.completed_date}}</td>
-        <td style="padding:0 1em">{{ chore.user }}</td>
-        <td style="padding:0 1em">{{ chore.score }}</td>
-    </tr>
+    <li>
+        <b>{{ chore.chore }} </b> - {{ chore.chore.category }} |
+        On: {{ chore.completed_date|date }} |
+        By: {{ chore.user }} |
+        For: {{ chore.score }} points
+    </li>
     {% endfor %}
+</ul>
 </table>
 {% endblock %}
