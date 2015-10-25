@@ -32,8 +32,8 @@
             {% endif %}
             Frequency: <span class="small-caps-header">{{ chore.frequency_in_days }} day(s)</span>
         </p>
-        <p><a class="btn" href="{% url 'edit_chore' chore.slug %}">&#x270D;</a>
-        <a class="btn" href="{% url 'mark_chore_done' chore.slug %}">&#x2714;</a></p>
+        <p><a class="btn" href="{% url 'mark_chore_done' chore.slug %}">&#x2714;</a>
+        <a class="btn" href="{% url 'edit_chore' chore.slug %}">&#x270D;</a></p>
         <hr>
     </div><!--/span-->
 </div><!--/row-->
