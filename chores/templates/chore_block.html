@@ -2,38 +2,48 @@
 
 <div class="row-fluid">
     <div class="span12">
-        <p><b>{{ chore.title }}</b> -
-            <span class="small-caps-header">
-                {% if chore.category %}{{ chore.category }}{% else %}No Category{% endif %}
-            </span>
-            | Owner: <span class="small-caps-header">{{ chore.primary_assignee }}</span>
-        </p>
-
-        {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
-            <p>Last Completed by <span class="small-caps-header" style="color:green; font-weight:bold">{{ chore.last_completed_by }}</span> on
-            <span class="small-caps-header">{{ chore.last_completed_date|date:"l" }}, {{ chore.last_completed_date|date }}</span></p>
-        {% endif %}
-        <p>Priority:
+        <p>
             {% if chore.priority = 3 %}
-                <span class="small-caps-header" style="color:red; font-weight:bold">{{ chore.get_priority_display }}</span>
+                <span style="color:red; font-weight:bold">{{ chore.title }}</span>
             {% elif chore.priority = 2 %}
-                <span class="small-caps-header" style="color:#FFB90F; font-weight:bold">{{ chore.get_priority_display }}</span>
+                <span style="color:#FFB90F; font-weight:bold">{{ chore.title }}</span>
             {% else %}
-                <span class="small-caps-header" style="color:green; font-weight:bold">{{ chore.get_priority_display }}</span>
+                <span style="color:green; font-weight:bold">{{ chore.title }}</span>
             {% endif %}
+
+            - {% if chore.category %}{{ chore.category }}{% else %}No Category{% endif %}
+
+            <span class="user-plaque"> {{ chore.primary_assignee.username|upper|slice:":2" }} </span>
         </p>
+        {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
+            <p>
+                &#x2714; <span class="user-plaque">   <!--check mark-->
+                {{ chore.last_completed_by.username|upper|slice:":2" }}</span>
+                -
+                <span class="small-caps-header">{{ chore.last_completed_date|date:"D" }},
+                    {{ chore.last_completed_date|date }}</span>
+            </p>
+        {% endif %}
         <p>
             {% if chore.last_completed_date|overdue:chore.frequency_in_days > 0 %}
                 {% if chore.last_completed_date|overdue:chore.frequency_in_days < 999 %}
-                    <span style="color:red; font-weight:bold">Overdue by:</span> <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days }} day(s)</span> |
+                    <span style="color:red; font-weight:bold">&#10069;</span>   <!--clock-->
+                    <span class="small-caps-header">
+                        {{ chore.last_completed_date|overdue:chore.frequency_in_days }}
+                    </span>
                 {% endif %}
             {% elif chore.last_completed_date|overdue:chore.frequency_in_days < 0 %}
-                Due in: <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days|absolute }} day(s)</span> |
+                <span style="color:orange; font-weight:bold">&#10069;</span>   <!--clock-->
+                <span class="small-caps-header">
+                    {{ chore.last_completed_date|overdue:chore.frequency_in_days|absolute }}
+                </span>
             {% endif %}
-            Frequency: <span class="small-caps-header">{{ chore.frequency_in_days }} day(s)</span>
+            &#10226; <span class="small-caps-header">{{ chore.frequency_in_days }}</span>   <!--repeat-->
         </p>
-        <p><a class="btn" href="{% url 'mark_chore_done' chore.slug %}">&#x2714;</a>
-        <a class="btn" href="{% url 'edit_chore' chore.slug %}">&#x270D;</a></p>
+        <p>
+            <a class="btn" href="{% url 'mark_chore_done' chore.slug %}">&#x2714;</a>   <!--check mark-->
+            <a class="btn" href="{% url 'edit_chore' chore.slug %}">&#x270D;</a>
+        </p>   <!--pencil-->
         <hr>
     </div><!--/span-->
 </div><!--/row-->

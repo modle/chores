@@ -72,3 +72,11 @@ p::first-letter {
     font-size: xx-large;
 }
 */
+
+.user-plaque {
+    background-color:lightgrey;
+    padding:.2em;
+    font-weight:bold;
+    border-radius:.3em
+}
+
