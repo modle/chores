@@ -74,9 +74,8 @@ p::first-letter {
 */
 
 .user-plaque {
-    background-color:lightgrey;
+    background-color: #8EEF8E;
     padding:.2em;
     font-weight:bold;
     border-radius:.3em
 }
-

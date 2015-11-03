@@ -66,16 +66,17 @@
             <!--due date status-->
             <p>
                 {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
-                    <span style="color:lightgrey; font-weight:bold">&#10069;</span>
+                    <img src="{% static 'bootstrap/img/alarm_grey.png' %}" height="10em" width="10m">    <!--alarm-->
                 {% elif chore.last_completed_date|overdue:chore.frequency_in_days = 0 %}
-                    <span style="color:orange; font-weight:bold">&#10069;</span>   <!--exclamation-->
+                    <img src="{% static 'bootstrap/img/alarm_yellow.png' %}" height="10em" width="10em">    <!--alarm-->
                 {% else %}
-                    <span style="color:red; font-weight:bold">&#10069;</span>   <!--exclamation-->
+                    <img src="{% static 'bootstrap/img/alarm_red.png' %}" height="10em" width="10em">    <!--alarm-->
                     <span class="small-caps-header">
                         {{ chore.last_completed_date|overdue:chore.frequency_in_days }}
                     </span>
                 {% endif %}
-                &#10226; <span class="small-caps-header">{{ chore.frequency_in_days }}</span>
+                <img src="{% static 'bootstrap/img/repeat.png' %}" height="15em" width="15em">
+                <span class="small-caps-header">{{ chore.frequency_in_days }}</span>
             </p>
 
             <!--buttons-->
