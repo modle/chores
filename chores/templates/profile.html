@@ -39,30 +39,46 @@
 {% if chore.last_completed_date|overdue:chore.frequency_in_days >= 0 %}
     <div class="row-fluid">
         <div class="span12">
-            <p><b>{{ chore.title }}</b> - <span class="small-caps-header">{{ chore.category }}</span></p>
+            <!--name and priority-->
+            <p>
+                {% if chore.priority = 3 %}
+                    <span style="color:red; font-weight:bold">{{ chore.title }}</span>
+                {% elif chore.priority = 2 %}
+                    <span style="color:#FFB90F; font-weight:bold">{{ chore.title }}</span>
+                {% else %}
+                    <span style="color:green; font-weight:bold">{{ chore.title }}</span>
+                {% endif %}
+
+                - {% if chore.category %}{{ chore.category }}{% else %}No Category{% endif %}
+            </p>
+
+            <!--last completed-->
             {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
-                <p>Last Completed by <span class="small-caps-header" style="color:green; font-weight:bold">{{ chore.last_completed_by }}</span> on
-                <span class="small-caps-header">{{ chore.last_completed_date|date:"l" }}, {{ chore.last_completed_date|date }}</span></p>
+                <p>
+                    &#x2714; <span class="user-plaque">   <!--check mark-->
+                    {{ chore.last_completed_by.username|upper|slice:":2" }}</span>
+                    -
+                    <span class="small-caps-header">{{ chore.last_completed_date|date:"D" }},
+                        {{ chore.last_completed_date|date }}</span>
+                </p>
             {% endif %}
+
+            <!--due date status-->
             <p>
                 {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
-
+                    <span style="color:lightgrey; font-weight:bold">&#10069;</span>
                 {% elif chore.last_completed_date|overdue:chore.frequency_in_days = 0 %}
-                    Due: <span class="small-caps-header">Today</span> |
+                    <span style="color:orange; font-weight:bold">&#10069;</span>   <!--exclamation-->
                 {% else %}
-                    <span style="color:red; font-weight:bold">Overdue:</span> <span class="small-caps-header">{{ chore.last_completed_date|overdue:chore.frequency_in_days }} day(s)</span> |
+                    <span style="color:red; font-weight:bold">&#10069;</span>   <!--exclamation-->
+                    <span class="small-caps-header">
+                        {{ chore.last_completed_date|overdue:chore.frequency_in_days }}
+                    </span>
                 {% endif %}
-                Frequency: <span class="small-caps-header">{{ chore.frequency_in_days }} day(s)</span>
+                &#10226; <span class="small-caps-header">{{ chore.frequency_in_days }}</span>
             </p>
-            <p>Priority:
-            {% if chore.priority = 3 %}
-                <span class="small-caps-header" style="color:red; font-weight:bold">{{ chore.get_priority_display }}</span>
-            {% elif chore.priority = 2 %}
-                <span class="small-caps-header" style="color:#FFB90F; font-weight:bold">{{ chore.get_priority_display }}</span>
-            {% else %}
-                <span class="small-caps-header" style="color:green; font-weight:bold">{{ chore.get_priority_display }}</span>
-            {% endif %}
-            </p>
+
+            <!--buttons-->
             <p><a class="btn" href="{% url 'mark_chore_done' chore.slug %}">&#x2714;</a></p>
             <hr>
         </div><!--/span-->
