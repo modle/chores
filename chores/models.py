@@ -115,3 +115,14 @@ class Rewards(models.Model):
     @permalink
     def get_absolute_url(self):
         return 'view_category', None, {'slug': self.slug}
+
+class UserPreferences(models.Model):
+    user = models.ForeignKey(User)
+    tile_color = models.CharField(max_length=6, default='8EEF8E')
+    chore_sorting = models.IntegerField(choices=SORTING_CHOICES, default=1)
+
+    def __unicode__(self):
+        return '{}'.format(self.user)
+
+    class Meta:
+        ordering = ('user', )
