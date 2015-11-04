@@ -6247,3 +6247,8 @@ a.badge:focus {
   position: fixed;
 }
 
+.no-bullets {
+  list-style-type: none;
+  padding:0;
+  margin:0;
+}

@@ -22,7 +22,7 @@
     <h1>History</h1>
 </div>
 
-<ul>
+<ul class="no-bullets">
     {% for chore in chores_history %}
     <li style="background-color:{% cycle 'lightblue' 'tan' %}">
         <b>{{ chore.chore }} </b> - {{ chore.chore.category }} |
