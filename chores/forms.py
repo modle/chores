@@ -58,7 +58,11 @@ class CategoryForm(ModelForm):
 
 
 class SearchForm(forms.Form):
-    search_term = forms.CharField(label='Filter', max_length=100)
+    search_term = forms.CharField(label='', max_length=100)
+
+    def __init__(self, *args, **kwargs):
+        super(SearchForm, self).__init__(*args, **kwargs)
+        self.fields['search_term'].widget.attrs.update({'placeholder': 'Filter'})
 
 
 class RewardsForm(ModelForm):

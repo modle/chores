@@ -34,6 +34,9 @@ def all_chores(request):
             chores = Chores.objects.filter(title__icontains=search_term).extra(select={
                 'ordering': 'round(extract(epoch from now()-last_completed_date)/3600)-frequency_in_days'
             }).extra(order_by=['-ordering'])
+
+            messages.info(request, search_term)
+
         else:
             chores = Chores.objects.extra(select={
                 'ordering': 'round(extract(epoch from now()-last_completed_date)/3600)-frequency_in_days'
@@ -232,6 +235,7 @@ def view_chores_history(request):
             search_term = search_form.cleaned_data['search_term']
 
             chores_history = History.objects.filter(chore__title__icontains=search_term)
+            messages.info(request, search_term)
         else:
             chores_history = History.objects.all()
     else:
@@ -294,7 +298,7 @@ def mark_chore_done(request, slug):
 
         messages.success(request, 'Chore ' + chore.title + ' for category ' + str(chore.category) +
                          ' marked done!')
-        messages.info(request, str(int(score_value)) + ' point(s)!')
+        messages.warning(request, str(int(score_value)) + ' point(s)!')
 
     else:
         messages.error(request, 'Chore ' + chore.title + ' not marked done. It was too recently completed.')

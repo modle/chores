@@ -17,10 +17,10 @@
 </div>
 
 {% for message in messages %}
-    {% if message.tags == 'info' %}
+    {% if message.tags == 'warning' %}
         <p style="color:red; font-weight:bold; font-size:3em;">{{ message }}</p><br>
         <p><img src="{% static 'bootstrap/img/blueman.png' %}"></p>
-    {% else %}
+    {% elif message.tags == 'success' %}
         <p style="font-weight:bold;">{{ message }}</p>
     {% endif %}
 {% endfor %}
@@ -28,8 +28,11 @@
 <form action="" method="POST">
 {% csrf_token %}
     {{ search_form }}
-    <input type="submit" class="btn" value="&#x21b2;"/>
-    <a class="btn" href="{% url 'clear_all_chores_filter' %}">&#x2718;</a></p>
+    {% for message in messages %}
+        {% if message.tags == 'info' %}
+            <a class="btn" href="{% url 'clear_all_chores_filter' %}">&#x2718; {{ message }}</a>
+        {% endif %}
+    {% endfor %}
 </form>
 
 <div class="hero-unit">

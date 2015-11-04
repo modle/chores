@@ -11,20 +11,21 @@
 {% endblock %}
 
 {% block content %}
-<form action="" method="POST">
-{% csrf_token %}
-    {{ search_form }}
-    <input type="submit" class="btn" value="&#x21b2;"/>
-    <a class="btn" href="{% url 'clear_view_history_filter' %}">&#x2718;</a></p>
-</form>
-
 <div class="hero-unit">
     <h1>History</h1>
 </div>
 
+<form action="" method="POST">
+{% csrf_token %}
+    {{ search_form }}
+    {% for message in messages %}
+        <a class="btn" href="{% url 'clear_view_history_filter' %}">&#x2718; {{ message }}</a>
+    {% endfor %}
+</form>
+
 <ul class="no-bullets">
     {% for chore in chores_history %}
-    <li style="background-color:{% cycle 'lightblue' 'tan' %}">
+    <li style="background-color:{% cycle 'lightblue' '#E4DCCB' %}">
         <b>{{ chore.chore }} </b> - {{ chore.chore.category }} |
         {{ chore.completed_date|date }} |
         {{ chore.user }} |
