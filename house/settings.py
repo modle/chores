@@ -4,6 +4,7 @@ Django settings for house.
 """
 
 import os
+import logging
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -90,3 +91,37 @@ try:
     print 'you''re using the local dev settings'
 except ImportError:
     from house.prodsettings import *
+
+
+
+LOGGING = {
+    'version': 1,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+            },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'logging.log',
+            'formatter': 'simple'
+            },
+        },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+            },
+        }
+    }

@@ -25,7 +25,7 @@
 
 <ul class="no-bullets">
     {% for chore in chores_history %}
-    <li style="background-color:{% cycle 'lightblue' '#E4DCCB' %}">
+    <li style="background-color:{% cycle 'lightblue' '#E4DCCB' %}; padding: 0 .3em">
         <b>{{ chore.chore }} </b> - {{ chore.chore.category }} |
         {{ chore.completed_date|date }} |
         {{ chore.user }} |

@@ -1,5 +1,5 @@
 from chores.forms import *
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -10,6 +10,7 @@ import re
 from django.contrib import messages
 import math
 import pytz
+import json
 
 from chores.models import Chores, Category, History, Score
 
@@ -271,10 +272,14 @@ def edit_chore(request, slug):
 
 
 @login_required()
-def mark_chore_done(request, slug):
+def mark_chore_done(request):
     # if chore completed by someone other than primary - then done from all-chores page, so redirect there
     # if chore completed by primary, redirect to profile
+
+    slug = request.POST.get('chore')
     chore = get_object_or_404(Chores, slug=slug)
+
+    response_data = {}
 
     utc = pytz.UTC
     td = timezone.now() - chore.last_completed_date
@@ -296,21 +301,30 @@ def mark_chore_done(request, slug):
         score.total_score += score_value
         score.save()
 
-        messages.success(request, 'Chore ' + chore.title + ' for category ' + str(chore.category) +
-                         ' marked done!')
-        messages.warning(request, str(int(score_value)) + ' point(s)!')
+        response_data['title'] = chore.title
+        response_data['category'] = str(chore.category)
+        response_data['score'] = str(int(score_value))
+        response_data['current_score'] = str(int(score.current_score))
+        response_data['slug'] = str(chore.slug)
+
+        # messages.success(request, 'Chore ' + chore.title + ' for category ' + str(chore.category) +
+        #                  ' marked done!')
+        # messages.warning(request, str(int(score_value)) + ' point(s)!')
 
     else:
-        messages.error(request, 'Chore ' + chore.title + ' not marked done. It was too recently completed.')
+        response_data['error'] = 'Chore ' + chore.title + ' not marked done. It was too recently completed.'
+        response_data['slug'] = str(chore.slug)
 
-    referer = request.META.get('HTTP_REFERER')
-    referer = re.sub('^https?:\/\/', '', referer).split('/')
-    redirect = referer[2].replace('.html','')
+    # referer = request.META.get('HTTP_REFERER')
+    # referer = re.sub('^https?:\/\/', '', referer).split('/')
+    # redirect = referer[2].replace('.html','')
 
-    if redirect == 'all_chores':
-        return HttpResponseRedirect(reverse(redirect))
-    else:
-        return HttpResponseRedirect(reverse(redirect, args=[request.user]))
+    return JsonResponse(response_data)
+
+    # if redirect == 'all_chores':
+    #     return HttpResponseRedirect(reverse(redirect))
+    # else:
+    #     return HttpResponseRedirect(reverse(redirect, args=[request.user]))
 
 
 def notauthorized(request):
