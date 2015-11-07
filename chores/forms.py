@@ -10,6 +10,14 @@ class ChoresForm(ModelForm):
         super(ChoresForm, self).__init__(*args, **kwargs)
         self.fields['title'].widget.attrs.update({'placeholder': 'Title'})
         self.fields['title'].widget.attrs.update({'id': 'title'})
+        self.fields['category'].widget.attrs.update({'id': 'category'})
+        self.fields['primary_assignee'].widget.attrs.update({'id': 'primary_assignee'})
+        self.fields['secondary_assignee'].widget.attrs.update({'id': 'secondary_assignee'})
+        self.fields['frequency_in_days'].widget.attrs.update({'id': 'frequency_in_days'})
+        self.fields['last_completed_by'].widget.attrs.update({'id': 'last_completed_by'})
+        self.fields['priority'].widget.attrs.update({'id': 'priority'})
+        self.fields['time_in_minutes'].widget.attrs.update({'id': 'time_in_minutes'})
+        self.fields['effort'].widget.attrs.update({'id': 'effort'})
 
     class Meta:
         model = Chores

@@ -1,12 +1,4 @@
-//Submit post on submit
 
-//function reply_click(clicked_id)
-//{
-//    mark_chore_done(clicked_id);
-//}
-
-
-// AJAX for posting
 function mark_chore_done(chore_slug) {
     $.ajax({
         url : "/mark_chore_done/", // the endpoint
@@ -28,6 +20,48 @@ function mark_chore_done(chore_slug) {
         }
     });
 };
+
+
+function add_chore() {
+    $.ajax({
+        url : "/add_chore/", // the endpoint
+        type : "POST", // http method
+        data : { title : $('#title').val(),
+            category : $('#category').val(),
+            primary_assignee : $('#primary_assignee').val(),
+            secondary_assignee : $('#secondary_assignee').val(),
+            frequency_in_days : $('#frequency_in_days').val(),
+            last_completed_by : $('#last_completed_by').val(),
+            priority : $('#priority').val(),
+            time_in_minutes : $('#time_in_minutes').val(),
+            effort : $('#effort').val()
+            }, // data sent with the post request
+
+        // handle a successful response
+        success : function(json) {
+            $('#title').val('');
+            $('#category').val('');
+            $('#primary_assignee').val('');
+            $('#secondary_assignee').val('');
+            $('#frequency_in_days').val('');
+            $('#last_completed_by').val('');
+            $('#priority').val('');
+            $('#time_in_minutes').val('');
+            $('#effort').val('');
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+        }
+    });
+};
+
+
+
+
+
 
 
 

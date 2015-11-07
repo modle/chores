@@ -6,11 +6,9 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db import IntegrityError
-import re
 from django.contrib import messages
 import math
 import pytz
-import json
 
 from chores.models import Chores, Category, History, Score
 
@@ -182,9 +180,9 @@ def redeem_reward(request, slug):
     return HttpResponseRedirect(reverse('rewards'))
 
 
-@login_required()
-def profile(request, slug):
-    user = request.user
+def add_chore(request):
+
+    response_data = {}
 
     if request.method == 'POST':
         form = ChoresForm(request.POST)
@@ -209,7 +207,14 @@ def profile(request, slug):
             messages.error(request, 'Please correct the indicated form errors.')
 
     else:
-        form = ChoresForm()
+        response_data['error'] = 'Chore ' + chore.title + ' not marked done. It was too recently completed.'
+
+    return JsonResponse(response_data)
+
+
+@login_required()
+def profile(request, slug):
+    user = request.user
 
     chores = Chores.objects.filter(primary_assignee=user.id).extra(select={
         'ordering': 'round(extract(epoch from now()-last_completed_date)/3600)-frequency_in_days'
@@ -218,7 +223,6 @@ def profile(request, slug):
 
     return render_to_response('profile.html', {
         'chores': chores,
-        'form': form,
         'score': score,
         },
         context_instance=RequestContext(request)
