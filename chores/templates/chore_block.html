@@ -18,41 +18,45 @@
             <span class="user-plaque"> {{ chore.primary_assignee.username|upper|slice:":2" }} </span>
         </p>
 
-        <!--last completed-->
-        {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
-            <p>
-                &#x2714; <span class="user-plaque">   <!--check mark-->
-                {{ chore.last_completed_by.username|upper|slice:":2" }}</span>
-                -
-                <span class="small-caps-header">{{ chore.last_completed_date|date:"D" }},
-                    {{ chore.last_completed_date|date }}</span>
-            </p>
-        {% endif %}
+        <div id="chore_details_{{ chore.slug }}">
+            <!--last completed-->
+            {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
+                <p>
+                    &#x2714; <span class="user-plaque">   <!--check mark-->
+                    {{ chore.last_completed_by.username|upper|slice:":2" }}</span>
+                    -
+                    <span class="small-caps-header">{{ chore.last_completed_date|date:"D" }},
+                        {{ chore.last_completed_date|date }}</span>
+                </p>
+            {% endif %}
 
-        <!--due date status-->
-        <p>
-            {% if chore.last_completed_date|overdue:chore.frequency_in_days > 0 %}
-                {% if chore.last_completed_date|overdue:chore.frequency_in_days < 999 %}
-                    <img src="{% static 'bootstrap/img/alarm_red.png' %}" height="10em" width="10em">    <!--alarm-->
+            <!--due date status-->
+            <p>
+                {% if chore.last_completed_date|overdue:chore.frequency_in_days > 0 %}
+                    {% if chore.last_completed_date|overdue:chore.frequency_in_days < 999 %}
+                        <img src="{% static 'bootstrap/img/alarm_red.png' %}" height="10em" width="10em">    <!--alarm-->
+                        <span class="small-caps-header">
+                            {{ chore.last_completed_date|overdue:chore.frequency_in_days }}
+                        </span>
+                    {% endif %}
+                {% elif chore.last_completed_date|overdue:chore.frequency_in_days < 0 %}
+                    <img src="{% static 'bootstrap/img/alarm_yellow.png' %}" height="10em" width="10em">    <!--alarm-->
                     <span class="small-caps-header">
-                        {{ chore.last_completed_date|overdue:chore.frequency_in_days }}
+                        {{ chore.last_completed_date|overdue:chore.frequency_in_days|absolute }}
                     </span>
                 {% endif %}
-            {% elif chore.last_completed_date|overdue:chore.frequency_in_days < 0 %}
-                <img src="{% static 'bootstrap/img/alarm_yellow.png' %}" height="10em" width="10em">    <!--alarm-->
-                <span class="small-caps-header">
-                    {{ chore.last_completed_date|overdue:chore.frequency_in_days|absolute }}
-                </span>
-            {% endif %}
-            <img src="{% static 'bootstrap/img/repeat.png' %}" height="15em" width="15em">
-            <span class="small-caps-header">{{ chore.frequency_in_days }}</span>   <!--repeat-->
-        </p>
+                <img src="{% static 'bootstrap/img/repeat.png' %}" height="15em" width="15em">
+                <span class="small-caps-header">{{ chore.frequency_in_days }}</span>   <!--repeat-->
+            </p>
+        </div>
 
         <!--buttons-->
-        <p>
-            <a class="btn" href="{% url 'mark_chore_done' chore.slug %}">&#x2714;</a>   <!--check mark-->
+        <div id="results_{{ chore.slug }}"></div>
+        <div id="mark_done_{{ chore.slug }}">
+            <button class="btn" id="{{ chore.slug }}" onClick="mark_chore_done(this.id)">&#x2714;</button>   <!--check mark-->
             <a class="btn" href="{% url 'edit_chore' chore.slug %}">&#x270D;</a>
-        </p>   <!--pencil-->
+        </div>
+
         <hr>
     </div><!--/span-->
 </div><!--/row-->

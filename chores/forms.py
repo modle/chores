@@ -14,7 +14,6 @@ class ChoresForm(ModelForm):
         self.fields['primary_assignee'].widget.attrs.update({'id': 'primary_assignee'})
         self.fields['secondary_assignee'].widget.attrs.update({'id': 'secondary_assignee'})
         self.fields['frequency_in_days'].widget.attrs.update({'id': 'frequency_in_days'})
-        self.fields['last_completed_by'].widget.attrs.update({'id': 'last_completed_by'})
         self.fields['priority'].widget.attrs.update({'id': 'priority'})
         self.fields['time_in_minutes'].widget.attrs.update({'id': 'time_in_minutes'})
         self.fields['effort'].widget.attrs.update({'id': 'effort'})
@@ -36,7 +35,7 @@ class ChoresForm(ModelForm):
             'frequency_in_days': 'Frequency (in days)',
             'priority': 'Priority',
             'time': 'Time (in minutes)',
-             'effort': 'Level of Effort',
+            'effort': 'Level of Effort',
         }
         widgets = {
             'priority': forms.Select(),

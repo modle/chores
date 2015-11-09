@@ -24,26 +24,20 @@ def all_chores(request):
 
     search_form = SearchForm()
 
+    # chores = Chores.objects.extra(select={
+    #     'ordering': 'extract(epoch from now()-last_completed_date)/3600-frequency_in_days'}).extra(order_by=['-ordering'])
+
+    chores = Chores.objects.extra(select={'ordering': "now() - last_completed_date - (frequency_in_days * '1 day'::interval)"}).extra(order_by=['-ordering'])
+
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
 
         if search_form.is_valid():
             search_term = search_form.cleaned_data['search_term']
 
-            chores = Chores.objects.filter(title__icontains=search_term).extra(select={
-                'ordering': 'round(extract(epoch from now()-last_completed_date)/3600)-frequency_in_days'
-            }).extra(order_by=['-ordering'])
+            chores = chores.filter(title__icontains=search_term)
 
             messages.info(request, search_term)
-
-        else:
-            chores = Chores.objects.extra(select={
-                'ordering': 'round(extract(epoch from now()-last_completed_date)/3600)-frequency_in_days'
-            }).extra(order_by=['-ordering'])
-    else:
-        chores = Chores.objects.extra(select={
-            'ordering': 'round(extract(epoch from now()-last_completed_date)/3600)-frequency_in_days'
-        }).extra(order_by=['-ordering'])
 
     return render_to_response('all_chores.html', {
         'chores': chores,
@@ -51,6 +45,12 @@ def all_chores(request):
         },
         context_instance=RequestContext(request)
     )
+
+
+def overdue(last_completed_date, frequency):
+    dt = timezone.now() - last_completed_date
+    days = dt.days - frequency
+    return days
 
 
 @login_required()
@@ -196,18 +196,14 @@ def add_chore(request):
             # prevents error on duplicate, but would also like to pass message to profile view
             try:
                 formpost.save()
-                messages.success(request, new_chore + ' added for category ' + str(new_chore_category) + '!')
-                return HttpResponseRedirect(reverse('profile', args=[request.user]))
+                response_data['success'] = new_chore + ' added for category ' + str(new_chore_category) + '!'
 
             except IntegrityError as e:
                 if 'duplicate key' in str(e):
-                    messages.error(request, new_chore + ' already exists for category ' + str(new_chore_category) + '!')
+                    response_data['error'] = str(new_chore) + ' already exists for category ' + str(new_chore_category) + '!'
 
         else:
-            messages.error(request, 'Please correct the indicated form errors.')
-
-    else:
-        response_data['error'] = 'Chore ' + chore.title + ' not marked done. It was too recently completed.'
+            response_data['error'] = 'Please correct the indicated form errors.'
 
     return JsonResponse(response_data)
 
@@ -216,6 +212,8 @@ def add_chore(request):
 def profile(request, slug):
     user = request.user
 
+    form = ChoresForm()
+
     chores = Chores.objects.filter(primary_assignee=user.id).extra(select={
         'ordering': 'round(extract(epoch from now()-last_completed_date)/3600)-frequency_in_days'
     }).extra(order_by=['-ordering'])
@@ -223,6 +221,7 @@ def profile(request, slug):
 
     return render_to_response('profile.html', {
         'chores': chores,
+        'form': form,
         'score': score,
         },
         context_instance=RequestContext(request)

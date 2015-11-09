@@ -7,9 +7,9 @@ function mark_chore_done(chore_slug) {
 
         // handle a successful response
         success : function(json) {
-            $("#results"+json.slug).prepend("<strong>DONE!</strong><br><em style=\"color:red; font-size:2em;\">"+json.score+" points!</em>");
-            $("#mark_done"+json.slug).hide();
-            $("#chore_details"+json.slug).hide();
+            $("#results_"+json.slug).prepend("<strong>DONE!</strong><br><em style=\"color:red; font-size:2em;\">"+json.score+" point(s)!</em>");
+            $("#mark_done_"+json.slug).hide();
+            $("#chore_details_"+json.slug).hide();
             $("#current_score").html(json.current_score);
         },
 
@@ -22,6 +22,14 @@ function mark_chore_done(chore_slug) {
 };
 
 
+
+$('#post-form').on('submit', function(event){
+    event.preventDefault();
+    alert("form submitted!")
+    add_chore();
+});
+
+
 function add_chore() {
     $.ajax({
         url : "/add_chore/", // the endpoint
@@ -31,7 +39,6 @@ function add_chore() {
             primary_assignee : $('#primary_assignee').val(),
             secondary_assignee : $('#secondary_assignee').val(),
             frequency_in_days : $('#frequency_in_days').val(),
-            last_completed_by : $('#last_completed_by').val(),
             priority : $('#priority').val(),
             time_in_minutes : $('#time_in_minutes').val(),
             effort : $('#effort').val()
@@ -44,7 +51,6 @@ function add_chore() {
             $('#primary_assignee').val('');
             $('#secondary_assignee').val('');
             $('#frequency_in_days').val('');
-            $('#last_completed_by').val('');
             $('#priority').val('');
             $('#time_in_minutes').val('');
             $('#effort').val('');

@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^(?P<slug>[^\.]+)/redeem_reward/$', 'chores.views.redeem_reward', name='redeem_reward'),
 
     url(r'^mark_chore_done/$', 'chores.views.mark_chore_done', name='mark_chore_done'),
+    url(r'^add_chore/$', 'chores.views.add_chore', name='add_chore'),
     url(r'^clear_all_chores_filter/$', 'chores.views.clear_all_chores_filter', name='clear_all_chores_filter'),
     url(r'^clear_view_history_filter/$', 'chores.views.clear_view_history_filter', name='clear_view_history_filter'),
     url(r'^(?P<slug>[^\.]+)/delete_category/$', 'chores.views.delete_category', name='delete_category'),
