@@ -27,7 +27,7 @@ def all_chores(request):
     # chores = Chores.objects.extra(select={
     #     'ordering': 'extract(epoch from now()-last_completed_date)/3600-frequency_in_days'}).extra(order_by=['-ordering'])
 
-    chores = Chores.objects.extra(select={'ordering': "now() - last_completed_date - (frequency_in_days * '1 day'::interval)"}).extra(order_by=['-ordering'])
+    chores = Chores.objects.extra(select={'ordering': "now() - last_completed_date - (frequency_in_days * '1 day'::interval)"}).extra(order_by=['-ordering']).order_by
 
     if request.method == 'POST':
         search_form = SearchForm(request.POST)

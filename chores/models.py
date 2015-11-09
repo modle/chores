@@ -87,7 +87,7 @@ class Chores(models.Model):
         return '{}'.format(self.title)
 
     class Meta:
-        ordering = ('-id', )
+        ordering = ('title', )
 
     @permalink
     def get_absolute_url(self):
