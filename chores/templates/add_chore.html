@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load markdown_deux_tags %}
+{% load chores_extras %}
+{% load staticfiles %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+{% for message in messages %}
+    {% if message.tags == 'info' %}
+        <p style="color:red; font-weight:bold; font-size:3em;">{{ message }}</p><br>
+        <p><img src="{% static 'bootstrap/img/blueman.png' %}"></p>
+    {% else %}
+        <p style="font-weight:bold;">{{ message }}</p>
+    {% endif %}
+{% endfor %}
+
+<div class="container-fluid">
+    <form method="POST" >
+        {% csrf_token %}
+        {{ form }}
+        <p>
+            <input type="submit" value="Post" class="btn">
+        </p>
+    </form>
+</div>
+
+<script type="text/javascript" src="{% static 'bootstrap/js/main.js' %}"></script>
+
+{% endblock %}

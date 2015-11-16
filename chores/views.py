@@ -183,7 +183,7 @@ def redeem_reward(request, slug):
 
 def add_chore(request):
 
-    response_data = {}
+    # response_data = {}
 
     if request.method == 'POST':
         form = ChoresForm(request.POST)
@@ -197,16 +197,30 @@ def add_chore(request):
             # prevents error on duplicate, but would also like to pass message to profile view
             try:
                 formpost.save()
-                response_data['success'] = new_chore + ' added for category ' + str(new_chore_category) + '!'
+                messages.success(request, new_chore + ' added for category ' + str(new_chore_category) + '!')
+                # response_data['success'] = new_chore + ' added for category ' + str(new_chore_category) + '!'
 
             except IntegrityError as e:
                 if 'duplicate key' in str(e):
-                    response_data['error'] = str(new_chore) + ' already exists for category ' + str(new_chore_category) + '!'
+                    messages.error(request, new_chore + ' already exists for category ' + str(new_chore_category) + '!')
+                    # response_data['error'] = str(new_chore) + ' already exists for category ' + str(new_chore_category) + '!'
+
+            return HttpResponseRedirect(reverse('add_chore'))
 
         else:
-            response_data['error'] = 'Please correct the indicated form errors.'
+            messages.error(request, 'Please correct the indicated form errors.')
+            # response_data['error'] = 'Please correct the indicated form errors.'
 
-    return JsonResponse(response_data)
+    else:
+        form = ChoresForm()
+
+    return render_to_response('add_chore.html', {
+        'form': form,
+        },
+        context_instance=RequestContext(request)
+    )
+
+    # return JsonResponse(response_data)
 
 
 @login_required()

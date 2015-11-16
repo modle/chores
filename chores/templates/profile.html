@@ -14,19 +14,27 @@
 
 <!--<p><img src="{% static 'bootstrap/img/blueman.png' %}"></p>-->
 
-<div class="container-fluid">
-    <button type="button" class="btn" data-toggle="collapse" data-target=".newpost-collapse">&#x25B2;&#x25BC;</button>
-    <br><br>
-    <div class="newpost-collapse collapse">
-        <form method="POST" id="post-form">
-            {% csrf_token %}
-            {{ form }}
-            <p>
-                <input type="submit" value="Post" class="btn">
-            </p>
-        </form>
+<div class="new_post_block" onclick="location.href='{% url 'add_chore' %}'">
+    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large red">
+            <f class="large material-icons">+</f>
+        </a>
     </div>
 </div>
+
+<!--<div class="container-fluid">-->
+    <!--<button type="button" class="btn" data-toggle="collapse" data-target=".newpost-collapse">&#x25B2;&#x25BC;</button>-->
+    <!--<br><br>-->
+    <!--<div class="newpost-collapse collapse">-->
+        <!--<form method="POST" id="post-form">-->
+            <!--{% csrf_token %}-->
+            <!--{{ form }}-->
+            <!--<p>-->
+                <!--<input type="submit" value="Post" class="btn">-->
+            <!--</p>-->
+        <!--</form>-->
+    <!--</div>-->
+<!--</div>-->
 
 <hr noshade>
 {% for chore in chores %}
