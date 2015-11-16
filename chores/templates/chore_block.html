@@ -1,62 +1,41 @@
 {% load chores_extras %}
 {% load staticfiles %}
 
-<div class="row-fluid">
-    <div class="span12">
-        <!--name and priority-->
-        <p>
-            {% if chore.priority = 3 %}
-                <span style="color:red; font-weight:bold">{{ chore.title }}</span>
-            {% elif chore.priority = 2 %}
-                <span style="color:#FFB90F; font-weight:bold">{{ chore.title }}</span>
-            {% else %}
-                <span style="color:green; font-weight:bold">{{ chore.title }}</span>
-            {% endif %}
+<div class="chore_block chore_{{ chore.priority }} notSelectable" id="{{ chore.slug }}">
+    <span class="chore_title priority_{{ chore.priority }} notSelectable">{{ chore.title }}</span>
 
-            - {% if chore.category %}{{ chore.category }}{% else %}No Category{% endif %}
+    <!--due date status-->
+    {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
+        <img class="notSelectable" src="{% static 'bootstrap/img/alarm_grey.png' %}" height="10em" width="10m">
+    {% elif chore.last_completed_date|overdue:chore.frequency_in_days = 0 %}
+        <img class="notSelectable" src="{% static 'bootstrap/img/alarm_yellow.png' %}" height="10em" width="10em">
+    {% else %}
+        <img class="notSelectable" src="{% static 'bootstrap/img/alarm_red.png' %}" height="10em" width="10em">
+        <span class="small-caps-header notSelectable">
+            {{ chore.last_completed_date|overdue:chore.frequency_in_days }}
+        </span>
+    {% endif %}
+    <img class="notSelectable" src="{% static 'bootstrap/img/repeat.png' %}" height="15em" width="15em">
+    <span class="small-caps-header notSelectable">{{ chore.frequency_in_days }}</span>
 
-            <span class="user-plaque"> {{ chore.primary_assignee.username|upper|slice:":2" }} </span>
-        </p>
+    <span class="chore_category notSelectable">{% if chore.category %}{{ chore.category }}{% else %}No Category{% endif %}</span>
 
-        <div id="chore_details_{{ chore.slug }}">
-            <!--last completed-->
-            {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
-                <p>
-                    &#x2714; <span class="user-plaque">   <!--check mark-->
-                    {{ chore.last_completed_by.username|upper|slice:":2" }}</span>
-                    -
-                    <span class="small-caps-header">{{ chore.last_completed_date|date:"D" }},
-                        {{ chore.last_completed_date|date }}</span>
-                </p>
-            {% endif %}
-
-            <!--due date status-->
+    <!--last completed-->
+    <div id="chore_details_{{ chore.slug }}">
+        {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
             <p>
-                {% if chore.last_completed_date|overdue:chore.frequency_in_days > 0 %}
-                    {% if chore.last_completed_date|overdue:chore.frequency_in_days < 999 %}
-                        <img src="{% static 'bootstrap/img/alarm_red.png' %}" height="10em" width="10em">    <!--alarm-->
-                        <span class="small-caps-header">
-                            {{ chore.last_completed_date|overdue:chore.frequency_in_days }}
-                        </span>
-                    {% endif %}
-                {% elif chore.last_completed_date|overdue:chore.frequency_in_days < 0 %}
-                    <img src="{% static 'bootstrap/img/alarm_yellow.png' %}" height="10em" width="10em">    <!--alarm-->
-                    <span class="small-caps-header">
-                        {{ chore.last_completed_date|overdue:chore.frequency_in_days|absolute }}
-                    </span>
-                {% endif %}
-                <img src="{% static 'bootstrap/img/repeat.png' %}" height="15em" width="15em">
-                <span class="small-caps-header">{{ chore.frequency_in_days }}</span>   <!--repeat-->
+                <span class="notSelectable">&#x2714;</span><span class="user-plaque notSelectable">   <!--check mark-->
+                {{ chore.last_completed_by.username|upper|slice:":2" }}</span>
+                <span class="small-caps-header notSelectable">{{ chore.last_completed_date|date:"D" }},
+                    {{ chore.last_completed_date|date }}</span>
             </p>
-        </div>
+        {% endif %}
+    </div>
 
-        <!--buttons-->
-        <div id="results_{{ chore.slug }}"></div>
-        <div id="mark_done_{{ chore.slug }}">
-            <button class="btn" id="{{ chore.slug }}" onClick="mark_chore_done(this.id)">&#x2714;</button>   <!--check mark-->
-            <a class="btn" href="{% url 'edit_chore' chore.slug %}">&#x270D;</a>
-        </div>
+    <div id="results_{{ chore.slug }}"></div>
 
-        <hr>
-    </div><!--/span-->
-</div><!--/row-->
+    <!--buttons-->
+    <div id="mark_done_{{ chore.slug }}">
+        <button class="btn" id="{{ chore.slug }}" onClick="mark_chore_done(this.id)">&#x2714;</button>
+    </div>
+</div>

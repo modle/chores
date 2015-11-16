@@ -22,78 +22,10 @@
     </div>
 </div>
 
-<!--<div class="container-fluid">-->
-    <!--<button type="button" class="btn" data-toggle="collapse" data-target=".newpost-collapse">&#x25B2;&#x25BC;</button>-->
-    <!--<br><br>-->
-    <!--<div class="newpost-collapse collapse">-->
-        <!--<form method="POST" id="post-form">-->
-            <!--{% csrf_token %}-->
-            <!--{{ form }}-->
-            <!--<p>-->
-                <!--<input type="submit" value="Post" class="btn">-->
-            <!--</p>-->
-        <!--</form>-->
-    <!--</div>-->
-<!--</div>-->
-
-<hr noshade>
 {% for chore in chores %}
-{% if chore.last_completed_date|overdue:chore.frequency_in_days >= 0 %}
-    <div class="row-fluid">
-        <ul class="no-bullets" id="chores">
-            <li>
-            <!--name and priority-->
-                <p>
-                    {% if chore.priority = 3 %}
-                        <span style="color:red; font-weight:bold">{{ chore.title }}</span>
-                    {% elif chore.priority = 2 %}
-                        <span style="color:#FFB90F; font-weight:bold">{{ chore.title }}</span>
-                    {% else %}
-                        <span style="color:green; font-weight:bold">{{ chore.title }}</span>
-                    {% endif %}
-
-                    - {% if chore.category %}{{ chore.category }}{% else %}No Category{% endif %}
-                </p>
-
-                <!--last completed-->
-                <div id="chore_details_{{ chore.slug }}">
-                    {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
-                        <p>
-                            &#x2714; <span class="user-plaque">   <!--check mark-->
-                            {{ chore.last_completed_by.username|upper|slice:":2" }}</span>
-                            -
-                            <span class="small-caps-header">{{ chore.last_completed_date|date:"D" }},
-                                {{ chore.last_completed_date|date }}</span>
-                        </p>
-                    {% endif %}
-
-                    <!--due date status-->
-                    <p>
-                        {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
-                            <img src="{% static 'bootstrap/img/alarm_grey.png' %}" height="10em" width="10m">
-                        {% elif chore.last_completed_date|overdue:chore.frequency_in_days = 0 %}
-                            <img src="{% static 'bootstrap/img/alarm_yellow.png' %}" height="10em" width="10em">
-                        {% else %}
-                            <img src="{% static 'bootstrap/img/alarm_red.png' %}" height="10em" width="10em">
-                            <span class="small-caps-header">
-                                {{ chore.last_completed_date|overdue:chore.frequency_in_days }}
-                            </span>
-                        {% endif %}
-                        <img src="{% static 'bootstrap/img/repeat.png' %}" height="15em" width="15em">
-                        <span class="small-caps-header">{{ chore.frequency_in_days }}</span>
-                    </p>
-                </div>
-
-                <!--buttons-->
-                <div id="results_{{ chore.slug }}"></div>
-                <div id="mark_done_{{ chore.slug }}">
-                    <button class="btn" id="{{ chore.slug }}" onClick="mark_chore_done(this.id)">&#x2714;</button>
-                </div>
-            </li>
-            <hr>
-        </ul><!--/span-->
-    </div><!--/row-->
-{% endif %}
+    {% if chore.last_completed_date|overdue:chore.frequency_in_days >= 0 %}
+        {% include "chore_block.html" %}
+    {% endif %}
 {% endfor %}
 
 <script type="text/javascript" src="{% static 'bootstrap/js/main.js' %}"></script>

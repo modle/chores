@@ -1,3 +1,8 @@
+$(document).ready( function() {
+
+  $('.notSelectable').disableSelection();
+
+});
 
 function mark_chore_done(chore_slug) {
     $.ajax({
@@ -21,6 +26,21 @@ function mark_chore_done(chore_slug) {
     });
 };
 
+
+$(".chore_block").mouseup(function(){
+  clearTimeout(pressTimer)
+  // Clear timeout
+  return false;
+}).mousedown(function(){
+  // Set timeout
+  slug = this.id;
+  this.style.backgroundColor = "LightCyan";
+  pressTimer = window.setTimeout(function() {
+    window.location.href = "/chores/edit_chore/"+slug+".html";
+   },1300)
+
+  return false;
+});
 
 
 $('#post-form').on('submit', function(event){
@@ -66,7 +86,20 @@ $('#post-form').on('submit', function(event){
 
 
 
-
+//makes text non-selectable on mobile, and prevents the highlight on long-press function
+$.fn.extend({
+    disableSelection: function() {
+        this.each(function() {
+            this.onselectstart = function() {
+                return false;
+            };
+            this.unselectable = "on";
+            $(this).css('-moz-user-select', 'none');
+            $(this).css('-webkit-user-select', 'none');
+        });
+        return this;
+    }
+});
 
 
 
