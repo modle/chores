@@ -114,6 +114,12 @@ input#post_edit_title:focus {
     float: right;
 }
 
+.last_completed {
+    text-transform: uppercase;
+    font-size: .7em;
+    float: right;
+}
+
 .chore_date {
     font-size: .6em;
     font-style: italic;

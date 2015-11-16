@@ -23,10 +23,10 @@
     <!--last completed-->
     <div id="chore_details_{{ chore.slug }}">
         {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
-            <p>
-                <span class="notSelectable">&#x2714;</span><span class="user-plaque notSelectable">   <!--check mark-->
+            <p class="last_completed">
+                <span class="user-plaque notSelectable">
                 {{ chore.last_completed_by.username|upper|slice:":2" }}</span>
-                <span class="small-caps-header notSelectable">{{ chore.last_completed_date|date:"D" }},
+                <span class="notSelectable">{{ chore.last_completed_date|date:"D" }},
                     {{ chore.last_completed_date|date }}</span>
             </p>
         {% endif %}
