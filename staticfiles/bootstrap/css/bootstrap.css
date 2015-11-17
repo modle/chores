@@ -4390,7 +4390,7 @@ input[type="submit"].btn.btn-mini {
 .navbar {
   *position: relative;
   *z-index: 2;
-  margin-bottom: 20px;
+  margin-bottom: .5em;
   overflow: visible;
 }
 
@@ -6204,13 +6204,10 @@ a.badge:focus {
 }
 
 .hero-unit {
-  padding: 5px;
-  margin-bottom: 30px;
-  font-size: 18px;
+  margin-bottom: .5em;
   font-weight: 200;
-  line-height: 30px;
   color: inherit;
-  background-color: #eeeeee;
+  padding: .3em;
   -webkit-border-radius: 6px;
      -moz-border-radius: 6px;
           border-radius: 6px;

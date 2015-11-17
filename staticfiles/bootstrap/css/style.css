@@ -262,8 +262,13 @@ input#post_edit_title:focus {
 
 .user-plaque {
   background-color: #EEEEEE;
-  padding:.2em;
-  font-weight:bold;
-  border-radius:.3em
+  padding: .2em;
+  font-weight: bold;
+  border-radius: .3em;
 }
 
+.no-bullets {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
