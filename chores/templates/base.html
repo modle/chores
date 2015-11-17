@@ -50,7 +50,7 @@
                         <li><a href="{% url 'rewards' %}">Redeem Points</a></li>
                     {% endif %}
                 </ul>
-            </div><!--/.nav-collapse -->
+            </div>
         </div>
     </div>
 </div>
@@ -58,19 +58,20 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
+        <div class="span14">
             {% block content %}
 
             {% endblock %}
 
-        {% block navsidebar %}
-        {% endblock %}
-
-    </div><!--/row-->
+            {% block navsidebar %}
+            {% endblock %}
+        </div>
+    </div>
     <hr>
     <footer>
         <p>&copy; Modle 2015</p>
     </footer>
-</div><!--/.fluid-container-->
+</div>
 
 </body>
 </html>

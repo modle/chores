@@ -1,8 +1,7 @@
 $(document).ready( function() {
-
   $('.notSelectable').disableSelection();
-
 });
+
 
 function mark_chore_done(chore_slug) {
     $.ajax({
@@ -34,7 +33,6 @@ $(".chore_block").mouseup(function(){
 }).mousedown(function(){
   // Set timeout
   slug = this.id;
-  this.style.backgroundColor = "LightCyan";
   pressTimer = window.setTimeout(function() {
     window.location.href = "/chores/edit_chore/"+slug+".html";
    },1300)
@@ -48,6 +46,7 @@ $('#post-form').on('submit', function(event){
     alert("form submitted!")
     add_chore();
 });
+
 
 //
 //function add_chore() {
@@ -83,7 +82,6 @@ $('#post-form').on('submit', function(event){
 //        }
 //    });
 //};
-
 
 
 //makes text non-selectable on mobile, and prevents the highlight on long-press function
