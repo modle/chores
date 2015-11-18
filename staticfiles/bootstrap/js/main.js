@@ -27,17 +27,18 @@ function mark_chore_done(chore_slug) {
 
 
 $(".chore_block").mouseup(function(){
-  clearTimeout(pressTimer)
-  // Clear timeout
-  return false;
+    clearTimeout(pressTimer)
+    // Clear timeout
+    return false;
 }).mousedown(function(){
-  // Set timeout
-  slug = this.id;
-  pressTimer = window.setTimeout(function() {
-    window.location.href = "/chores/edit_chore/"+slug+".html";
-   },1300)
+    // Set timeout
+    slug = this.id;
+    this.style.cursor = "wait";
+    pressTimer = window.setTimeout(function() {
+        window.location.href = "/chores/edit_chore/"+slug+".html";
+    },1300)
 
-  return false;
+    return false;
 });
 
 

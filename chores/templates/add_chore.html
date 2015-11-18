@@ -17,12 +17,12 @@
     {% endif %}
 {% endfor %}
 
-<div class="container-fluid">
+<div class="span4">
     <form method="POST">
         {% csrf_token %}
         {{ form }}
         <p>
-            <input type="submit" value="Post" class="btn">
+            <button class="waves-effect waves-light btn-large form-width" type="submit" id="submit">Punch it, Chewie!</button>
         </p>
     </form>
 </div>

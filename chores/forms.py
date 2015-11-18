@@ -37,18 +37,6 @@ class ChoresForm(ModelForm):
             'time': 'Time (in minutes)',
             'effort': 'Level of Effort',
         }
-        widgets = {
-            'priority': forms.Select(),
-        }
-        choices = {
-            'priority': PRIORITY_CHOICES,
-        }
-        initial = {
-            'priority': '',
-        }
-        required = {
-            'priority': True,
-        }
 
 
 class CategoryForm(ModelForm):
