@@ -11,11 +11,17 @@
         <form method="post" action="{% url 'login' %}" class="form form--login">
             {% csrf_token %}
             {{ form.id }}
-            <div class="login-form">
-                <div class="username">{{ form.username }}</div>
-                <div class="password">{{ form.password }}</div>
+            <div class="form__field">
+                <label class="fontawesome-user" for="login__username"><span class="hidden">Username</span></label>
+                {{ form.username }}
             </div>
-            <input type="submit" value="login" />
+            <div class="form__field">
+                <label class="fontawesome-lock" for="login__password"><span class="hidden">Password</span></label>
+                {{ form.password }}
+            </div>
+            <div class="form__field">
+                <input type="submit" value="login" />
+            </div>
         </form>
     </div>
 </div>
