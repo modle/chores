@@ -2,16 +2,23 @@
 {% block content %}
 <hr noshade>
 
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
-{% csrf_token %}
-    {{ form.id }}
-    {{ form.username.label }}: {{ form.username }}
-    <br><br>
-    {{ form.password.label }}: {{ form.password }}
-    <hr noshade>
-    <input type="submit" value="login" />
-</form>
+{% for message in messages %}
+    {{ message }}
+{% endfor %}
 
+<div class="site__container">
+    <div class="grid__container">
+        <form method="post" action="{% url 'login' %}" class="form form--login">
+            {% csrf_token %}
+            {{ form.id }}
+            <div class="login-form">
+                <div class="username">{{ form.username }}</div>
+                <div class="password">{{ form.password }}</div>
+            </div>
+            <input type="submit" value="login" />
+        </form>
+    </div>
+</div>
 {% endblock %}
 
 {% block navsidebar %}

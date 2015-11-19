@@ -3,6 +3,7 @@
 
 from django.conf.urls import include, url
 from django.contrib import admin
+from chores.forms import MyAuthenticationForm
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -22,13 +23,11 @@ urlpatterns = [
     url(r'^clear_all_chores_filter/$', 'chores.views.clear_all_chores_filter', name='clear_all_chores_filter'),
     url(r'^clear_view_history_filter/$', 'chores.views.clear_view_history_filter', name='clear_view_history_filter'),
     url(r'^(?P<slug>[^\.]+)/delete_category/$', 'chores.views.delete_category', name='delete_category'),
-
 ]
-
 
 urlpatterns += [
     # Auth-related URLs
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
+    url(r'^chores/login/$', 'chores.views.login_view', name='login'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name='logout'),
     url(r'^accounts/loggedin/$', 'chores.views.loggedin', name='loggedin'),
     url(r'^accounts/notauthorized/$', 'chores.views.notauthorized', name='notauthorized'),

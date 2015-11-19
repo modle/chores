@@ -9,17 +9,18 @@ from django.db import IntegrityError
 from django.contrib import messages
 import math
 import pytz
+from django.contrib.auth import authenticate, login
 
 from chores.models import Chores, Category, History, Score
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def index(request):
 
     return HttpResponseRedirect(reverse('profile', args=[request.user]))
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def all_chores(request):
 
     search_form = SearchForm()
@@ -54,19 +55,19 @@ def overdue(last_completed_date, frequency):
     return days
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def clear_all_chores_filter(request):
 
     return HttpResponseRedirect(reverse('all_chores'))
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def clear_view_history_filter(request):
 
     return HttpResponseRedirect(reverse('view_chores_history'))
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def all_categories(request):
 
     category_form = CategoryForm()
@@ -86,7 +87,7 @@ def all_categories(request):
     )
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def view_category(request, slug):
     category = get_object_or_404(Category, slug=slug)
     category_chores = Chores.objects.filter(category=category)
@@ -100,7 +101,7 @@ def view_category(request, slug):
     )
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def delete_category(request, slug):
     category = get_object_or_404(Category, slug=slug)
 
@@ -116,7 +117,7 @@ def category_count():
     return categories
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def rewards(request):
 
     rewards_form = RewardsForm()
@@ -144,7 +145,7 @@ def rewards(request):
     )
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def delete_reward(request, slug):
     reward = get_object_or_404(Rewards, slug=slug)
 
@@ -152,7 +153,7 @@ def delete_reward(request, slug):
     return HttpResponseRedirect(reverse('rewards'))
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def redeem_reward(request, slug):
 
     try:
@@ -223,7 +224,7 @@ def add_chore(request):
     # return JsonResponse(response_data)
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def profile(request, slug):
     user = request.user
 
@@ -243,7 +244,7 @@ def profile(request, slug):
     )
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def view_chores_history(request):
     search_form = SearchForm()
 
@@ -269,7 +270,7 @@ def view_chores_history(request):
     )
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def edit_chore(request, slug):
     # successful form save = redirect to all chores
     # unsuccessful = redirect to edit chore
@@ -289,7 +290,7 @@ def edit_chore(request, slug):
                               context_instance=RequestContext(request))
 
 
-@login_required()
+@login_required(login_url="chores/login/")
 def mark_chore_done(request):
     # if chore completed by someone other than primary - then done from all-chores page, so redirect there
     # if chore completed by primary, redirect to profile
@@ -364,3 +365,32 @@ def loggedout(request):
         'registration/loggedout.html',
         context_instance=RequestContext(request)
     )
+
+
+def login_view(request):
+
+    if request.method == 'POST':
+
+        form = MyAuthenticationForm(request.POST)
+
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+
+                return HttpResponseRedirect(reverse('loggedin'))
+
+            else:
+                messages.error(request, 'Account is disabled')
+        else:
+            messages.error(request, 'Invalid login credentials')
+
+    else:
+        form = MyAuthenticationForm()
+        messages.error(request, '')
+
+    return render_to_response('registration/login.html', {'form': form, },
+                              context_instance=RequestContext(request))

@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from chores.choices import *
+from django.contrib.auth.forms import AuthenticationForm
 
 from .models import Chores, Category, Rewards
 
@@ -68,3 +68,13 @@ class RewardsForm(ModelForm):
     class Meta:
         model = Rewards
         fields = ('title', 'value', )
+
+
+class MyAuthenticationForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(MyAuthenticationForm, self).__init__(*args, **kwargs)
+        self.base_fields['username'].widget.attrs['placeholder'] = 'Username'
+        self.base_fields['password'].widget.attrs['placeholder'] = 'Password'
+
+    class Meta:
+        fields = ('username', 'password', )
