@@ -29,7 +29,6 @@ urlpatterns += [
     # Auth-related URLs
     url(r'^chores/login/$', 'chores.views.login_view', name='login'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name='logout'),
-    url(r'^accounts/loggedin/$', 'chores.views.loggedin', name='loggedin'),
     url(r'^accounts/notauthorized/$', 'chores.views.notauthorized', name='notauthorized'),
     url(r'^chores/loggedout/$', 'chores.views.loggedout', name='loggedout'),
 ]

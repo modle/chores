@@ -84,7 +84,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'house')
 
 MEDIA_URL = '/media/'
 
-# LOGIN_REDIRECT_URL = '/registration/login/'
+LOGIN_URL = 'login'
 
 try:
     from house.localsettings import *

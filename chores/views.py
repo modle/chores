@@ -14,19 +14,16 @@ from django.contrib.auth import authenticate, login
 from chores.models import Chores, Category, History, Score
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def index(request):
 
     return HttpResponseRedirect(reverse('profile', args=[request.user]))
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def all_chores(request):
 
     search_form = SearchForm()
-
-    # chores = Chores.objects.extra(select={
-    #     'ordering': 'extract(epoch from now()-last_completed_date)/3600-frequency_in_days'}).extra(order_by=['-ordering'])
 
     chores = Chores.objects.extra(select={'ordering': "now() - last_completed_date - (frequency_in_days * '1 day'::interval)"}).\
         extra(order_by=['-ordering'])
@@ -55,19 +52,19 @@ def overdue(last_completed_date, frequency):
     return days
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def clear_all_chores_filter(request):
 
     return HttpResponseRedirect(reverse('all_chores'))
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def clear_view_history_filter(request):
 
     return HttpResponseRedirect(reverse('view_chores_history'))
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def all_categories(request):
 
     category_form = CategoryForm()
@@ -87,7 +84,7 @@ def all_categories(request):
     )
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def view_category(request, slug):
     category = get_object_or_404(Category, slug=slug)
     category_chores = Chores.objects.filter(category=category)
@@ -101,7 +98,7 @@ def view_category(request, slug):
     )
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def delete_category(request, slug):
     category = get_object_or_404(Category, slug=slug)
 
@@ -117,7 +114,7 @@ def category_count():
     return categories
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def rewards(request):
 
     rewards_form = RewardsForm()
@@ -145,7 +142,7 @@ def rewards(request):
     )
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def delete_reward(request, slug):
     reward = get_object_or_404(Rewards, slug=slug)
 
@@ -153,7 +150,7 @@ def delete_reward(request, slug):
     return HttpResponseRedirect(reverse('rewards'))
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def redeem_reward(request, slug):
 
     try:
@@ -224,7 +221,7 @@ def add_chore(request):
     # return JsonResponse(response_data)
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def profile(request, slug):
     user = request.user
 
@@ -244,7 +241,7 @@ def profile(request, slug):
     )
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def view_chores_history(request):
     search_form = SearchForm()
 
@@ -270,7 +267,7 @@ def view_chores_history(request):
     )
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def edit_chore(request, slug):
     # successful form save = redirect to all chores
     # unsuccessful = redirect to edit chore
@@ -290,7 +287,7 @@ def edit_chore(request, slug):
                               context_instance=RequestContext(request))
 
 
-@login_required(login_url="chores/login/")
+@login_required()
 def mark_chore_done(request):
     # if chore completed by someone other than primary - then done from all-chores page, so redirect there
     # if chore completed by primary, redirect to profile
@@ -353,18 +350,8 @@ def notauthorized(request):
     )
 
 
-def loggedin(request):
-    return render_to_response(
-        'registration/loggedin.html',
-        context_instance=RequestContext(request)
-    )
-
-
 def loggedout(request):
-    return render_to_response(
-        'registration/loggedout.html',
-        context_instance=RequestContext(request)
-    )
+    return HttpResponseRedirect(reverse('login'))
 
 
 def login_view(request):
@@ -381,7 +368,7 @@ def login_view(request):
             if user.is_active:
                 login(request, user)
 
-                return HttpResponseRedirect(reverse('loggedin'))
+                return HttpResponseRedirect(reverse('profile', args=[request.user]))
 
             else:
                 messages.error(request, 'Account is disabled')
