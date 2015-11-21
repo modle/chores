@@ -3,6 +3,17 @@ $(document).ready( function() {
 });
 
 
+$('.chore_block').live('swipeleft swiperight',function(event){
+        if (event.type == "swiperight") {
+           alert("swipped right side");
+        }
+        if (event.type == "swipeleft") {
+            alert("swipped left side");
+        }
+        event.preventDefault();
+    });
+
+
 function mark_chore_done(chore_slug) {
     $.ajax({
         url : "/mark_chore_done/", // the endpoint
