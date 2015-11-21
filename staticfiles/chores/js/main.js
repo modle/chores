@@ -28,9 +28,16 @@ function mark_chore_done(chore_slug) {
 };
 
 
-$(".chore_block").mousedown(function(){
+
+//mousedown(function(){
+//    slug = this.id;
+//}).
+
+$(".chore_block").mousemove(function(){
     slug = this.id;
-}).swipe({
+})
+
+$(".chore_block").swipe({
   swipeRight:function(event, direction, distance, duration, fingerCount) {
     mark_chore_done(slug);
   },
@@ -41,12 +48,6 @@ $(".chore_block").mousedown(function(){
   allowPageScroll:"auto"
 });
 
-
-$('#post-form').on('submit', function(event){
-    event.preventDefault();
-    alert("form submitted!")
-    add_chore();
-});
 
 
 //
