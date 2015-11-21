@@ -28,17 +28,8 @@ function mark_chore_done(chore_slug) {
 };
 
 
-$(".chore_block").mouseup(function(){
-//    clearTimeout(pressTimer)
-    // Clear timeout
-    return false;
-}).mousedown(function(){
-    // Set timeout
+$(".chore_block").mousedown(function(){
     slug = this.id;
-//    this.style.cursor = "wait";
-//    pressTimer = window.setTimeout(function() {
-//        window.location.href = "/chores/edit_chore/"+slug+".html";
-//    },1300)
     return false;
 }).swipe({
   swipe:function(event, direction, distance, duration, fingerCount) {
