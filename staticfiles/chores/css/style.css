@@ -238,12 +238,12 @@ select {
 .right_chore_block {
     float:right;
     display:inline-block;
-    width: 49%;
+    width: 39%;
 }
 
 .left_chore_block {
     float:left;
     display:inline-block;
-    width: 49%;
+    width: 60%;
 }
 
