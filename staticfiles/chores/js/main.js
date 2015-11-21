@@ -3,12 +3,12 @@ $(document).ready( function() {
 });
 
 
-$('.chore_block').live('swipeleft swiperight',function(event){
+$('body').live('swipeleft swiperight',function(event){
         if (event.type == "swiperight") {
-           alert("swipped right side");
+           alert("swiped right side");
         }
         if (event.type == "swipeleft") {
-            alert("swipped left side");
+            alert("swiped left side");
         }
         event.preventDefault();
     });
