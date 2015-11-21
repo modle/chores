@@ -122,14 +122,7 @@ input#post_edit_title:focus {
     /*display: inline-block;*/
 }
 
-.chore_category {
-    text-transform: uppercase;
-    font-size: .7em;
-    float: right;
-    display: block;
-}
-
-.chore_last_completed {
+.chore_category, .chore_last_completed, .chore_results {
     text-transform: uppercase;
     font-size: .7em;
     float: right;
@@ -245,9 +238,12 @@ select {
 .right_chore_block {
     float:right;
     display:inline-block;
+    width: 49%;
 }
 
 .left_chore_block {
     float:left;
     display:inline-block;
+    width: 49%;
 }
+

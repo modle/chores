@@ -32,15 +32,14 @@ $(".chore_block").mousedown(function(){
     slug = this.id;
     return false;
 }).swipe({
-  swipe:function(event, direction, distance, duration, fingerCount) {
-    if (direction=="right") {
-        mark_chore_done(slug);
-    }
-    else if (direction=="left") {
-        window.location.href = "/chores/edit_chore/"+slug+".html";
-    }
+  swipeRight:function(event, direction, distance, duration, fingerCount) {
+    mark_chore_done(slug);
   },
-  threshold:50
+  swipeLeft:function(event, direction, distance, duration, fingerCount) {
+    window.location.href = "/chores/edit_chore/"+slug+".html";
+  },
+  threshold:50,
+  allowPageScroll:"auto"
 });
 
 
