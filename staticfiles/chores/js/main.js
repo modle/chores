@@ -49,7 +49,7 @@ $(".chore_block").mouseup(function(){
         window.location.href = "/chores/edit_chore/"+slug+".html";
     }
   },
-  threshold:150
+  threshold:50
 });
 
 

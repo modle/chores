@@ -20,9 +20,9 @@
 
     </div>
 
-    <div id="chore_details_{{ chore.slug }}">
         <!--last completed-->
-        <div class="right_chore_block">
+    <div class="right_chore_block">
+        <div id="chore_details_{{ chore.slug }}">
             {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
                 <div class="chore_last_completed">
                     <span class="user-plaque notSelectable">
