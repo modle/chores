@@ -129,6 +129,10 @@ input#post_edit_title:focus {
     display: block;
 }
 
+.chore_results {
+    font-size: 1.2em;
+}
+
 .chore_date {
     font-size: .6em;
     font-style: italic;

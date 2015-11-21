@@ -30,7 +30,6 @@ function mark_chore_done(chore_slug) {
 
 $(".chore_block").mousedown(function(){
     slug = this.id;
-    return false;
 }).swipe({
   swipeRight:function(event, direction, distance, duration, fingerCount) {
     mark_chore_done(slug);
