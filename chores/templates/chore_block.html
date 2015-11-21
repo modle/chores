@@ -2,40 +2,45 @@
 {% load staticfiles %}
 
 <div class="chore_block chore_{{ chore.priority }} notSelectable" id="{{ chore.slug }}">
-    <span class="chore_title priority_{{ chore.priority }} notSelectable">{{ chore.title }}</span>
+    <div class="left_chore_block"><span class="chore_title priority_{{ chore.priority }} notSelectable">{{ chore.title }}</span>
 
-    <!--due date status-->
-    {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
-        <img class="notSelectable" src="{% static 'bootstrap/img/alarm_grey.png' %}" height="10em" width="10m">
-    {% elif chore.last_completed_date|overdue:chore.frequency_in_days = 0 %}
-        <img class="notSelectable" src="{% static 'bootstrap/img/alarm_yellow.png' %}" height="10em" width="10em">
-    {% else %}
-        <img class="notSelectable" src="{% static 'bootstrap/img/alarm_red.png' %}" height="10em" width="10em">
-        <span class="small-caps-header notSelectable">
-            {{ chore.last_completed_date|overdue:chore.frequency_in_days }}
-        </span>
-    {% endif %}
-    <img class="notSelectable" src="{% static 'bootstrap/img/repeat.png' %}" height="15em" width="15em">
-    <span class="small-caps-header notSelectable">{{ chore.frequency_in_days }}</span>
-
-    <span class="chore_category notSelectable">{% if chore.category %}{{ chore.category }}{% else %}No Category{% endif %}</span>
-
-    <!--last completed-->
-    <div id="chore_details_{{ chore.slug }}">
-        {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
-            <p class="last_completed">
-                <span class="user-plaque notSelectable">
-                {{ chore.last_completed_by.username|upper|slice:":2" }}</span>
-                <span class="notSelectable">{{ chore.last_completed_date|date:"D" }},
-                    {{ chore.last_completed_date|date }}</span>
-            </p>
+        <!--due date status-->
+        {% if chore.last_completed_date|overdue:chore.frequency_in_days = 999 %}
+            <img class="notSelectable" src="{% static 'bootstrap/img/alarm_grey.png' %}" height="10em" width="10m">
+        {% elif chore.last_completed_date|overdue:chore.frequency_in_days = 0 %}
+            <img class="notSelectable" src="{% static 'bootstrap/img/alarm_yellow.png' %}" height="10em" width="10em">
+        {% else %}
+            <img class="notSelectable" src="{% static 'bootstrap/img/alarm_red.png' %}" height="10em" width="10em">
+            <span class="small-caps-header notSelectable">
+                {{ chore.last_completed_date|overdue:chore.frequency_in_days }}
+            </span>
         {% endif %}
+        <img class="notSelectable" src="{% static 'bootstrap/img/repeat.png' %}" height="15em" width="15em">
+        <span class="small-caps-header notSelectable">{{ chore.frequency_in_days }}</span>
+
     </div>
 
-    <div id="results_{{ chore.slug }}"></div>
-
+    <div id="chore_details_{{ chore.slug }}">
+        <!--last completed-->
+        <div class="right_chore_block">
+            {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
+                <div class="chore_last_completed">
+                    <span class="user-plaque notSelectable">
+                    {{ chore.last_completed_by.username|upper|slice:":2" }}</span>
+                    <span class="notSelectable">{{ chore.last_completed_date|date:"D" }},
+                        {{ chore.last_completed_date|date }}</span>
+                </div>
+                <div style="clear:both;"></div>
+                <div class="chore_category notSelectable">
+                    {% if chore.category %}{{ chore.category }}{% else %}No Category{% endif %}
+                </div>
+            {% endif %}
+            <div class="mark_complete_button" id="mark_done_{{ chore.slug }}">
+                <button class="waves-effect waves-light btn" id="{{ chore.slug }}" onClick="mark_chore_done(this.id)">Complete Chore</button>
+            </div>
+        </div>
+        <div id="results_{{ chore.slug }}"></div>
+    </div>
+    <div style="clear:both;"></div>
     <!--buttons-->
-    <div id="mark_done_{{ chore.slug }}">
-        <button class="waves-effect waves-light btn" id="{{ chore.slug }}" onClick="mark_chore_done(this.id)">Complete Chore</button>
-    </div>
 </div>

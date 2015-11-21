@@ -119,18 +119,21 @@ input#post_edit_title:focus {
     font-size: 1.2em;
     margin-bottom: 1em;
     word-wrap: break-word;
+    /*display: inline-block;*/
 }
 
 .chore_category {
     text-transform: uppercase;
     font-size: .7em;
     float: right;
+    display: block;
 }
 
-.last_completed {
+.chore_last_completed {
     text-transform: uppercase;
     font-size: .7em;
     float: right;
+    display: block;
 }
 
 .chore_date {
@@ -179,8 +182,14 @@ input#post_edit_title:focus {
     .container-fluid {
         padding: 0;
     }
-}
 
+    .mark_complete_button {
+        visibility: hidden;
+        height: 0;
+        float: right;
+        display: block;
+    }
+}
 
 @media (min-width: 980px) {
 
@@ -188,6 +197,7 @@ input#post_edit_title:focus {
         padding-top: 60px;
         padding-bottom: 40px;
     }
+
 }
 
 @media (min-width: 1200px) {
@@ -230,4 +240,14 @@ select {
 
 .form-width {
     width: 225px;
+}
 
+.right_chore_block {
+    float:right;
+    display:inline-block;
+}
+
+.left_chore_block {
+    float:left;
+    display:inline-block;
+}

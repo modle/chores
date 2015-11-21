@@ -3,14 +3,6 @@ $(document).ready( function() {
 });
 
 
-
-$(".chore_block").swipe({
-  swipe:function(event, direction, distance, duration, fingerCount) {
-    $(this).text("You swiped " + direction );
-  }
-});
-
-
 function mark_chore_done(chore_slug) {
     $.ajax({
         url : "/mark_chore_done/", // the endpoint
@@ -19,10 +11,12 @@ function mark_chore_done(chore_slug) {
 
         // handle a successful response
         success : function(json) {
-            $("#results_"+json.slug).prepend("<strong>DONE!</strong><br><em style=\"color:red; font-size:2em;\">"+json.score+" point(s)!</em>");
-            $("#mark_done_"+json.slug).hide();
-            $("#chore_details_"+json.slug).hide();
-            $("#current_score").html(json.current_score);
+            if (json.score) {
+                $("#results_"+json.slug).prepend("<strong>DONE!</strong> <em style=\"color:red;\">"+json.score+" point(s)!</em>");
+                $("#mark_done_"+json.slug).hide();
+                $("#chore_details_"+json.slug).hide();
+                $("#current_score").html(json.current_score);
+                }
         },
 
         // handle a non-successful response
@@ -35,18 +29,27 @@ function mark_chore_done(chore_slug) {
 
 
 $(".chore_block").mouseup(function(){
-    clearTimeout(pressTimer)
+//    clearTimeout(pressTimer)
     // Clear timeout
     return false;
 }).mousedown(function(){
     // Set timeout
     slug = this.id;
-    this.style.cursor = "wait";
-    pressTimer = window.setTimeout(function() {
-        window.location.href = "/chores/edit_chore/"+slug+".html";
-    },1300)
-
+//    this.style.cursor = "wait";
+//    pressTimer = window.setTimeout(function() {
+//        window.location.href = "/chores/edit_chore/"+slug+".html";
+//    },1300)
     return false;
+}).swipe({
+  swipe:function(event, direction, distance, duration, fingerCount) {
+    if (direction=="right") {
+        mark_chore_done(slug);
+    }
+    else if (direction=="left") {
+        window.location.href = "/chores/edit_chore/"+slug+".html";
+    }
+  },
+  threshold:150
 });
 
 
