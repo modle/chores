@@ -12,11 +12,11 @@
             {% csrf_token %}
             {{ form.id }}
             <div class="form__field">
-                <label class="fontawesome-user" for="login__username"><span class="hidden">Username</span></label>
+                <label class="fontawesome-user" for="login__username"></label>
                 {{ form.username }}
             </div>
             <div class="form__field">
-                <label class="fontawesome-lock" for="login__password"><span class="hidden">Password</span></label>
+                <label class="fontawesome-lock" for="login__password"></label>
                 {{ form.password }}
             </div>
             <div class="form__field">

@@ -17,14 +17,32 @@
     {% endif %}
 {% endfor %}
 
-<div class="span4">
-    <form method="POST">
-        {% csrf_token %}
-        {{ form }}
-        <p>
-            <button class="waves-effect waves-light btn-large form-width" type="submit" id="submit">Punch it, Chewie!</button>
-        </p>
-    </form>
+<div class="site__container">
+    <div class="grid__container">
+        <form method="POST" action="" class="form form--login">
+            {% csrf_token %}
+            {{ form.id }}
+            {{ form.title }}
+            {{ form.category.label }}
+            {{ form.category }}
+            {{ form.primary_assignee.label }}
+            {{ form.primary_assignee }}
+            {{ form.secondary_assignee.label }}
+            {{ form.secondary_assignee }}
+            {{ form.frequency_in_days.label }}
+            {{ form.frequency_in_days }}
+            {{ form.priority.label }}
+            {{ form.priority }}
+            {{ form.time_in_minutes.label }}
+            {{ form.time_in_minutes }}
+            {{ form.effort.label }}
+            {{ form.effort }}
+            
+            <p>
+                <button class="waves-effect waves-light btn-large form-width" type="submit" id="submit">Punch it, Chewie!</button>
+            </p>
+        </form>
+    </div>
 </div>
 
 <script type="text/javascript" src="{% static 'bootstrap/js/main.js' %}"></script>

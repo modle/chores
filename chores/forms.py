@@ -10,13 +10,21 @@ class ChoresForm(ModelForm):
         super(ChoresForm, self).__init__(*args, **kwargs)
         self.fields['title'].widget.attrs.update({'placeholder': 'Title'})
         self.fields['title'].widget.attrs.update({'id': 'title'})
+        self.fields['title'].widget.attrs.update({'class': 'form__field'})
         self.fields['category'].widget.attrs.update({'id': 'category'})
+        self.fields['category'].widget.attrs.update({'class': 'form__field'})
         self.fields['primary_assignee'].widget.attrs.update({'id': 'primary_assignee'})
+        self.fields['primary_assignee'].widget.attrs.update({'class': 'form__field'})
         self.fields['secondary_assignee'].widget.attrs.update({'id': 'secondary_assignee'})
+        self.fields['secondary_assignee'].widget.attrs.update({'class': 'form__field'})
         self.fields['frequency_in_days'].widget.attrs.update({'id': 'frequency_in_days'})
+        self.fields['frequency_in_days'].widget.attrs.update({'class': 'form__field'})
         self.fields['priority'].widget.attrs.update({'id': 'priority'})
+        self.fields['priority'].widget.attrs.update({'class': 'form__field'})
         self.fields['time_in_minutes'].widget.attrs.update({'id': 'time_in_minutes'})
+        self.fields['time_in_minutes'].widget.attrs.update({'class': 'form__field'})
         self.fields['effort'].widget.attrs.update({'id': 'effort'})
+        self.fields['effort'].widget.attrs.update({'class': 'form__field'})
 
     class Meta:
         model = Chores
@@ -30,8 +38,8 @@ class ChoresForm(ModelForm):
                   'effort',)
         labels = {
             'title': '',
-            'secondary_assignee': 'Backup',
             'primary_assignee': 'Owner',
+            'secondary_assignee': 'Backup',
             'frequency_in_days': 'Frequency (in days)',
             'priority': 'Priority',
             'time': 'Time (in minutes)',

@@ -26,9 +26,11 @@
             {% if chore.last_completed_date|overdue:chore.frequency_in_days != 999 %}
                 <div class="chore_last_completed notSelectable">
                     <span class="user-plaque notSelectable">
-                    {{ chore.last_completed_by.username|upper|slice:":2" }}</span>
+                    {{ chore.last_completed_by.username|upper|slice:":2" }}
+                    </span>
                     <span class="notSelectable">{{ chore.last_completed_date|date:"D" }},
-                        {{ chore.last_completed_date|date }}</span>
+                        {{ chore.last_completed_date|date }}
+                    </span>
                 </div>
                 <div style="clear:both;"></div>
                 <div class="chore_category notSelectable">

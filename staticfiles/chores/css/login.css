@@ -62,9 +62,12 @@ input {
 .form--login label,
 .form--login input[type="text"],
 .form--login input[type="password"],
-.form--login input[type="submit"] {
+.form--login input[type="submit"],
+.form--login input[type="number"],
+.form--login input[type="select"] {
   border-radius: 0.25rem;
   padding: 1rem;
+
 }
 .form--login label {
   background-color: #363b41;
@@ -73,6 +76,7 @@ input {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
 }
+
 .form--login input[type="text"], .form--login input[type="password"] {
   background-color: #3b4148;
   border-bottom-left-radius: 0;
@@ -140,3 +144,9 @@ input {
   max-width: 20rem;
   width: 90%;
 }
+
+.form_small,
+  border-radius: 0.25rem;
+  padding: 0;
+}
+
