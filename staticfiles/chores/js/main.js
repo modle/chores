@@ -48,9 +48,6 @@ $(".chore_block").mouseup(function(){
     else if (direction=="left") {
         window.location.href = "/chores/edit_chore/"+slug+".html";
     }
-    else if (direction=="up" or direction=="down") {
-        return false;
-    }
   },
   threshold:50
 });
