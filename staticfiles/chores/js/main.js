@@ -3,15 +3,12 @@ $(document).ready( function() {
 });
 
 
-$('body').live('swipeleft swiperight',function(event){
-        if (event.type == "swiperight") {
-           alert("swiped right side");
-        }
-        if (event.type == "swipeleft") {
-            alert("swiped left side");
-        }
-        event.preventDefault();
-    });
+
+$(".chore_block").swipe({
+  swipe:function(event, direction, distance, duration, fingerCount) {
+    $(this).text("You swiped " + direction );
+  }
+});
 
 
 function mark_chore_done(chore_slug) {
