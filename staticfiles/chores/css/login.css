@@ -29,9 +29,6 @@ a {
   outline: 0;
   text-decoration: none;
 }
-a:focus, a:hover {
-  text-decoration: underline;
-}
 
 input {
   border: 0;

@@ -25,7 +25,6 @@ a {
 a:hover,
 a:focus {
   color: #005580;
-  text-decoration: underline;
 }
 
 
@@ -216,6 +215,7 @@ select {
     display: block;
     /*background-color:red;*/
     overflow: hidden;
+    line-height: 100 px;
 }
 
 .chore_title {
@@ -238,8 +238,13 @@ select {
     text-align: center;
 }
 
-chore_complete_button:active {
+.chore_complete_button:hover {
     background-color: #a7a7a7;
+    color: #ffffff;
+}
+
+.chore_complete_button:active {
+    background-color: #4a4a4a;
     color: #ffffff;
 }
 
