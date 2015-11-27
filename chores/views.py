@@ -323,13 +323,10 @@ def mark_chore_done(request):
         response_data['current_score'] = str(int(score.current_score))
         response_data['slug'] = str(chore.slug)
 
-        # messages.success(request, 'Chore ' + chore.title + ' for category ' + str(chore.category) +
-        #                  ' marked done!')
-        # messages.warning(request, str(int(score_value)) + ' point(s)!')
-
     else:
         response_data['error'] = 'Chore ' + chore.title + ' not marked done. It was too recently completed.'
         response_data['slug'] = str(chore.slug)
+        response_data['last_completed_date'] = str(chore.last_completed_date)
 
     # referer = request.META.get('HTTP_REFERER')
     # referer = re.sub('^https?:\/\/', '', referer).split('/')

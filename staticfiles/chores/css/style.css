@@ -238,6 +238,11 @@ select {
     text-align: center;
 }
 
+chore_complete_button:active {
+    background-color: #a7a7a7;
+    color: #ffffff;
+}
+
 .right_chore_block {
     display:inline-block;
     float:right;
@@ -257,3 +262,4 @@ select {
 .chore_results {
     font-size: 1em;
 }
+

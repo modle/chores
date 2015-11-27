@@ -19,10 +19,14 @@ function mark_chore_done(chore_slug) {
         success : function(json) {
             if (json.score) {
                 $("#results_"+json.slug).prepend("<strong>DONE!</strong> <em style=\"color:red;\">"+json.score+" point(s)!</em>");
-                $("#mark_done_"+json.slug).hide();
                 $("#chore_details_"+json.slug).hide();
                 $("#current_score").html(json.current_score);
-                }
+            }
+            else {
+                $("#results_"+json.slug).html("<em>Too recently completed</em>");
+//                $("#chore_details_"+json.slug).show();
+//                $("#results_"+json.slug).prepend(json.last_completed_date);
+            }
         },
 
         // handle a non-successful response
